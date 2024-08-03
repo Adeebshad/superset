@@ -155,6 +155,7 @@
     "match-sorter": "^6.3.3",
     "memoize-one": "^5.1.1",
     "moment": "^2.30.1",
+    "micromark-extension-gfm-autolink-literal": "^2.1.0",
     "moment-timezone": "^0.5.44",
     "mousetrap": "^1.6.5",
     "mustache": "^2.2.1",

@@ -38,8 +38,10 @@ services:
     container_name: superset_db
     restart: unless-stopped
     volumes:
-      - db_home:/var/lib/postgresql/data
+      - ./db_home:/var/lib/postgresql/data:rw
       - ./docker/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - 6432:5432
 
   superset:
     env_file: docker/.env-non-dev
