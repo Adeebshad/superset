@@ -56,7 +56,7 @@ services:
     ports:
       - "127.0.0.1:6432:5432"
     volumes:
-      - ./db_home:/var/lib/postgresql/data
+      - ./db_home:/var/lib/postgresql/data:rw
       - ./docker/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
   superset:
