@@ -75,5 +75,11 @@
     "./plugins/*/types/**/*",
     "./packages/*/test/**/*",
     "./plugins/*/test/**/*"
+  ],
+  "files": [
+    // ... other files
+    "./packages/generator-superset/temp/superset-plugin-chart-ville/lib/index.js",
+    "./packages/generator-superset/temp/superset-plugin-chart-rose2/lib/index.js"
   ]
+
 }

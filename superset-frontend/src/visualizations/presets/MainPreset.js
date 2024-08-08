@@ -79,7 +79,8 @@ import { HandlebarsChartPlugin } from '@superset-ui/plugin-chart-handlebars';
 import { PopKPIPlugin } from '@superset-ui/plugin-chart-period-over-period-kpi';
 import { FilterPlugins } from 'src/constants';
 import TimeTableChartPlugin from '../TimeTable';
-import { SupersetPluginChartVille } from '../../../custom_plugin/superset-plugin-chart-ville'
+import { SupersetPluginChartVille } from '../../../packages/generator-superset/temp/superset-plugin-chart-ville';
+import { Rose2ChartPlugin } from '../../../packages/generator-superset/temp/superset-plugin-chart-rose2';
 
 export default class MainPreset extends Preset {
   constructor() {
@@ -170,6 +171,7 @@ export default class MainPreset extends Preset {
         new EchartsBubbleChartPlugin().configure({ key: 'bubble_v2' }),
         ...experimentalPlugins,
 		    new SupersetPluginChartVille().configure({key: 'ext-ville'}),
+        new Rose2ChartPlugin().configure({ key: 'rose2_chart' }),
       ],
     });
   }
