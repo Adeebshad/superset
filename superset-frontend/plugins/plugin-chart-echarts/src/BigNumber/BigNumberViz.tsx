@@ -39,6 +39,9 @@ const PROPORTION = {
   SUBHEADER: 0.125,
   // trendline size: proportion of the whole chart container
   TRENDLINE: 0.3,
+  text: 'black',
+  subheadtext: 'black',
+  bgColor: 'white',
 };
 
 class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
@@ -54,6 +57,9 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
     startYAxisAtZero: true,
     subheader: '',
     subheaderFontSize: PROPORTION.SUBHEADER,
+    textColor : PROPORTION.text,
+    subHeadTextColor: PROPORTION.subheadtext,
+    backgroundColor:PROPORTION.bgColor,
     timeRangeFixed: false,
   };
 
@@ -128,7 +134,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
   }
 
   renderHeader(maxHeight: number) {
-    const { bigNumber, headerFormatter, width, colorThresholdFormatters } =
+    const { bigNumber, headerFormatter, width, colorThresholdFormatters, textColor, backgroundColor } =
       this.props;
     // @ts-ignore
     const text = bigNumber === null ? t('No data') : headerFormatter(bigNumber);
@@ -148,7 +154,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
         }
       });
     } else {
-      numberColor = 'black';
+      numberColor = textColor; //'red';
     }
 
     const container = this.createTemporaryContainer();
@@ -176,16 +182,41 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
           fontSize,
           height: maxHeight,
           color: numberColor,
+          //background: backgroundColor,
         }}
         onContextMenu={onContextMenu}
       >
         {text}
       </div>
+      
+    );
+      
+  }
+  renderBigNumberBody() {
+    const {backgroundColor} = this.props;
+    const onContextMenu = (e: MouseEvent<HTMLDivElement>) => {
+      if (this.props.onContextMenu) {
+        e.preventDefault();
+        this.props.onContextMenu(e.nativeEvent.clientX, e.nativeEvent.clientY);
+      }
+    };
+    return (
+      <div
+        className=""
+        style={{
+          
+          background: backgroundColor,
+          
+        }}
+        onContextMenu={onContextMenu}
+      >
+      </div>
+      
     );
   }
 
   renderSubheader(maxHeight: number) {
-    const { bigNumber, subheader, width, bigNumberFallback } = this.props;
+    const { bigNumber, subheader, width, bigNumberFallback, subHeadTextColor } = this.props;
     let fontSize = 0;
 
     const NO_DATA_OR_HASNT_LANDED = t(
@@ -216,6 +247,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
           style={{
             fontSize,
             height: maxHeight,
+            color:subHeadTextColor,
           }}
         >
           {text}
@@ -278,6 +310,8 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
       kickerFontSize,
       headerFontSize,
       subheaderFontSize,
+      textColor,
+      backgroundColor
     } = this.props;
     const className = this.getClassName();
 
@@ -286,7 +320,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
       const allTextHeight = height - chartHeight;
 
       return (
-        <div className={className}>
+        <div className={className} style={{backgroundColor: backgroundColor }}>
           <div className="text-container" style={{ height: allTextHeight }}>
             {this.renderFallbackWarning()}
             {this.renderKicker(
@@ -309,12 +343,19 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
     }
 
     return (
-      <div className={className} style={{ height }}>
+      <div className={className} style={{ height,backgroundColor: backgroundColor }}>
         {this.renderFallbackWarning()}
         {this.renderKicker((kickerFontSize || 0) * height)}
         {this.renderHeader(Math.ceil(headerFontSize * height))}
         {this.renderSubheader(Math.ceil(subheaderFontSize * height))}
+        {this.renderBigNumberBody()}
       </div>
+    );
+    return (
+      <div className="superset-legacy-chart-big-number">
+        {this.renderBigNumberBody()}
+      </div>
+      
     );
   }
 }

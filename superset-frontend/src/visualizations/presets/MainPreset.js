@@ -31,6 +31,8 @@ import PartitionChartPlugin from '@superset-ui/legacy-plugin-chart-partition';
 import RoseChartPlugin from '@superset-ui/legacy-plugin-chart-rose';
 import SankeyChartPlugin from '@superset-ui/legacy-plugin-chart-sankey';
 import TableChartPlugin from '@superset-ui/plugin-chart-table';
+import TransposeTableChartPlugin from '@superset-ui/transpose-plugin-chart-table';
+import {PivotTableChartPluginTranspose as PivotTableChartPluginTransposeV2 } from '@superset-ui/plugin-chart-pivot-table-transpose';
 import { WordCloudChartPlugin } from '@superset-ui/plugin-chart-word-cloud';
 import WorldMapChartPlugin from '@superset-ui/legacy-plugin-chart-world-map';
 import {
@@ -75,10 +77,15 @@ import {
   TimeGrainFilterPlugin,
 } from 'src/filters/components';
 import { PivotTableChartPlugin as PivotTableChartPluginV2 } from '@superset-ui/plugin-chart-pivot-table';
+
+
 import { HandlebarsChartPlugin } from '@superset-ui/plugin-chart-handlebars';
 import { PopKPIPlugin } from '@superset-ui/plugin-chart-period-over-period-kpi';
 import { FilterPlugins } from 'src/constants';
 import TimeTableChartPlugin from '../TimeTable';
+//import { SupersetPluginChartHelloWorld } from 'superset-plugin-chart-hello-world';
+import {LiquidChartPlugin} from 'superset-plugin-chart-liquid';
+//import { Rose2ChartPlugin } from 'superset-plugin-chart-rose2';
 
 export default class MainPreset extends Preset {
   constructor() {
@@ -92,6 +99,9 @@ export default class MainPreset extends Preset {
       name: 'Legacy charts',
       presets: [new DeckGLChartPreset()],
       plugins: [
+        //new SupersetPluginChartHelloWorld().configure({ key: 'ext-hello-world' }),
+        //new Rose2ChartPlugin().configure({ key: 'rose2_chart' }),
+        new LiquidChartPlugin().configure({ key: 'liquid' }),
         new AreaChartPlugin().configure({ key: 'area' }),
         new BarChartPlugin().configure({ key: 'bar' }),
         new BigNumberChartPlugin().configure({ key: 'big_number' }),
@@ -123,9 +133,11 @@ export default class MainPreset extends Preset {
         new PartitionChartPlugin().configure({ key: 'partition' }),
         new EchartsPieChartPlugin().configure({ key: 'pie' }),
         new PivotTableChartPluginV2().configure({ key: 'pivot_table_v2' }),
+        new PivotTableChartPluginTransposeV2().configure({ key: 'transpose_pivot_table_v2' }),
         new RoseChartPlugin().configure({ key: 'rose' }),
         new SankeyChartPlugin().configure({ key: 'sankey' }),
         new TableChartPlugin().configure({ key: 'table' }),
+        new TransposeTableChartPlugin().configure({ key: 'table_transpose' }),
         new TimePivotChartPlugin().configure({ key: 'time_pivot' }),
         new TimeTableChartPlugin().configure({ key: 'time_table' }),
         new WordCloudChartPlugin().configure({ key: 'word_cloud' }),
