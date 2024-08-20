@@ -79,9 +79,6 @@ export type BigNumberVizProps = {
   kickerFontSize?: number;
   subheader: string;
   subheaderFontSize: number;
-  textColor: string;
-  subHeadTextColor:string;
-  backgroundColor: string;
   showTimestamp?: boolean;
   showTrendLine?: boolean;
   startYAxisAtZero?: boolean;

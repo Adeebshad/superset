@@ -26,7 +26,7 @@ import {
   temporalColumnMixin,
 } from '@superset-ui/chart-controls';
 import React from 'react';
-import { headerFontSize, subheaderFontSize, textColor, backgroundColor, subHeadTextColor } from '../sharedControls';
+import { headerFontSize, subheaderFontSize } from '../sharedControls';
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
@@ -133,9 +133,6 @@ const config: ControlPanelConfig = {
         ['color_picker', null],
         [headerFontSize],
         [subheaderFontSize],
-        [textColor],
-        [backgroundColor],
-        [subHeadTextColor],
         ['y_axis_format'],
         ['currency_format'],
         [
