@@ -59,6 +59,7 @@ import { LOG_ACTIONS_CHART_DOWNLOAD_AS_IMAGE } from 'src/logger/LogUtils';
 import { RootState } from 'src/dashboard/types';
 import { findPermission } from 'src/utils/findPermission';
 import { useCrossFiltersScopingModal } from '../nativeFilters/FilterBar/CrossFilters/ScopingModal/useCrossFiltersScopingModal';
+import * as XLSX from 'xlsx';
 
 const MENU_KEYS = {
   DOWNLOAD_AS_IMAGE: 'download_as_image',
@@ -290,6 +291,23 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
     }
   };
 
+  function exportToExcel(elementSelector: string, fileName: string): void {
+    const element = document.querySelector(elementSelector);
+    if (element) {
+      const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+      XLSX.writeFile(wb, `${fileName}.xlsx`);
+    } else {
+      console.error('Element not found.');
+    }
+  }
+
+  function getPresentDate(): string {
+    const date = new Date();
+    return `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`;
+  }
+
   const handleMenuClick = ({
     key,
     domEvent,
@@ -327,7 +345,11 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
         break;
       case MENU_KEYS.EXPORT_XLSX:
         // eslint-disable-next-line no-unused-expressions
-        props.exportXLSX?.(props.slice.slice_id);
+        exportToExcel(`
+          #chart-id-${props.slice.slice_id}`,
+          `Export-Report-${getPresentDate()}`,
+        );
+        //props.exportXLSX?.(props.slice.slice_id);
         break;
       case MENU_KEYS.DOWNLOAD_AS_IMAGE: {
         // menu closes with a delay, we need to hide it manually,
