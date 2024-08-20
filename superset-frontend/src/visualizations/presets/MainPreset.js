@@ -67,6 +67,11 @@ import {
   EchartsBubbleChartPlugin,
   EchartsWaterfallChartPlugin,
 } from '@superset-ui/plugin-chart-echarts';
+// import {
+//   BigNumberWithTrendlineChartPluginExtended,
+//   BigNumberTotalChartPluginExtended
+// } from '@superset-ui/plugin-chart-custom-big-number';
+import {BigNumberWithTrendlineChartPluginExtended, BigNumberTotalChartPluginExtended } from 'plugin-chart-custom-big-number';
 import {
   SelectFilterPlugin,
   RangeFilterPlugin,
@@ -95,7 +100,9 @@ export default class MainPreset extends Preset {
         new AreaChartPlugin().configure({ key: 'area' }),
         new BarChartPlugin().configure({ key: 'bar' }),
         new BigNumberChartPlugin().configure({ key: 'big_number' }),
+        new BigNumberWithTrendlineChartPluginExtended().configure({key: 'big_number_extended'}),
         new BigNumberTotalChartPlugin().configure({ key: 'big_number_total' }),
+        new BigNumberTotalChartPluginExtended().configure({key: 'big_number_total_extended'}),
         new EchartsBoxPlotChartPlugin().configure({ key: 'box_plot' }),
         new BubbleChartPlugin().configure({ key: 'bubble' }),
         new BulletChartPlugin().configure({ key: 'bullet' }),

@@ -159,6 +159,7 @@
     "moment-timezone": "^0.5.44",
     "mousetrap": "^1.6.5",
     "mustache": "^2.2.1",
+    "plugin-chart-custom-big-number": "^1.0.1",
     "polished": "^3.7.2",
     "prop-types": "^15.7.2",
     "query-string": "^6.13.7",
@@ -206,7 +207,7 @@
     "use-event-callback": "^0.1.0",
     "use-immer": "^0.9.0",
     "use-query-params": "^1.1.9",
-	"xlsx": "^0.18.5",
+    "xlsx": "^0.18.5",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
