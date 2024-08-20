@@ -214,6 +214,12 @@ const config = {
   },
   output,
   stats: 'minimal',
+  ignoreWarnings: [
+    {
+      message:
+        /export 'withTooltipPropTypes' \(imported as 'vxTooltipPropTypes'\) was not found/,
+    },
+  ],
   performance: {
     assetFilter(assetFilename) {
       // don't throw size limit warning on geojson and font files
@@ -288,6 +294,7 @@ const config = {
       // TODO: remove Handlebars alias once Handlebars NPM package has been updated to
       // correctly support webpack import (https://github.com/handlebars-lang/handlebars.js/issues/953)
       handlebars: 'handlebars/dist/handlebars.js',
+	  'moment/min/moment-with-locales': false,
     },
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.yml'],
     fallback: {

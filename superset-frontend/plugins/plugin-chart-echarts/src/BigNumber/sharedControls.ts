@@ -88,3 +88,128 @@ export const subheaderFontSize: CustomControlItem = {
     ],
   },
 };
+
+export const textColor: CustomControlItem = {
+  name: 'text_color',
+  config: {
+    type: 'SelectControl',
+    label: t('Change Text Color'),
+    renderTrigger: true,
+    clearable: false,
+    default: 'black',
+    // Values represent the percentage of space a subheader should take
+    options: [
+      {
+        label: t('Black'),
+        value: 'black',
+      },
+      {
+        label: t('White'),
+        value: 'white',
+      },
+      {
+        label: t('Blue'),
+        value: '#4287f5',
+      },
+      {
+        label: t('Pink'),
+        value: '#f54298',
+      },
+      {
+        label: t('Yellow'),
+        value: '#eff542',
+      },
+      {
+        label: t('Red'),
+        value: '#f54245',
+      },
+      {
+        label: t('Violet'),
+        value: '#e642f5',
+      },
+    ],
+  },
+};
+
+export const subHeadTextColor: CustomControlItem = {
+  name: 'sub_head_text_color',
+  config: {
+    type: 'SelectControl',
+    label: t('Change Sub Head Text Color'),
+    renderTrigger: true,
+    clearable: false,
+    default: 'black',
+    // Values represent the percentage of space a subheader should take
+    options: [
+      {
+        label: t('Black'),
+        value: 'black',
+      },
+      {
+        label: t('White'),
+        value: 'white',
+      },
+      {
+        label: t('Blue'),
+        value: '#4287f5',
+      },
+      {
+        label: t('Pink'),
+        value: '#f54298',
+      },
+      {
+        label: t('Yellow'),
+        value: '#eff542',
+      },
+      {
+        label: t('Red'),
+        value: '#f54245',
+      },
+      {
+        label: t('Violet'),
+        value: '#e642f5',
+      },
+    ],
+  },
+};
+export const backgroundColor: CustomControlItem = {
+  name: 'background_Color',
+  config: {
+    type: 'SelectControl',
+    label: t('Change Background Color'),
+    renderTrigger: true,
+    clearable: false,
+    default: 'white',
+    // Values represent the percentage of space a subheader should take
+    options: [
+      {
+        label: t('Black'),
+        value: 'black',
+      },
+      {
+        label: t('White'),
+        value: 'white',
+      },
+      {
+        label: t('Blue'),
+        value: '#4287f5',
+      },
+      {
+        label: t('Pink'),
+        value: '#f54298',
+      },
+      {
+        label: t('Yellow'),
+        value: '#eff542',
+      },
+      {
+        label: t('Red'),
+        value: '#f54245',
+      },
+      {
+        label: t('Violet'),
+        value: '#e642f5',
+      },
+    ],
+  },
+};

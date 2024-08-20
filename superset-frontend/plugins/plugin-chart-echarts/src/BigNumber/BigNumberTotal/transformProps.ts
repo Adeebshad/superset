@@ -54,6 +54,9 @@ export default function transformProps(
     yAxisFormat,
     conditionalFormatting,
     currencyFormat,
+    textColor,
+    backgroundColor,
+    subHeadTextColor,
   } = formData;
   const refs: Refs = {};
   const { data = [], coltypes = [] } = queriesData[0];
@@ -106,6 +109,9 @@ export default function transformProps(
     headerFormatter,
     headerFontSize,
     subheaderFontSize,
+    textColor,
+    backgroundColor,
+    subHeadTextColor,
     subheader: formattedSubheader,
     onContextMenu,
     refs,
