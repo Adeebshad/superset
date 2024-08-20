@@ -30,6 +30,7 @@ import {
   withRouter,
 } from 'react-router-dom';
 import moment from 'moment';
+import * as XLSX from 'xlsx';
 import {
   Behavior,
   css,
@@ -290,6 +291,25 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
     }
   };
 
+  //////
+  function exportToExcel(elementSelector: string, fileName: string): void {
+    const element = document.querySelector(elementSelector);
+    if (element) {
+      const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+      XLSX.writeFile(wb, `${fileName}.xlsx`);
+    } else {
+      console.error('Element not found.');
+    }
+  }
+  ///
+  function getPresentDate(): string {
+    const date = new Date();
+    return `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`;
+  }
+
+
   const handleMenuClick = ({
     key,
     domEvent,
@@ -326,8 +346,9 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
         props.exportFullXLSX?.(props.slice.slice_id);
         break;
       case MENU_KEYS.EXPORT_XLSX:
+        exportToExcel(`#chart-id-${props.slice.slice_id}`,`Export-Report-${getPresentDate()}`,);
         // eslint-disable-next-line no-unused-expressions
-        props.exportXLSX?.(props.slice.slice_id);
+        //props.exportXLSX?.(props.slice.slice_id);
         break;
       case MENU_KEYS.DOWNLOAD_AS_IMAGE: {
         // menu closes with a delay, we need to hide it manually,
