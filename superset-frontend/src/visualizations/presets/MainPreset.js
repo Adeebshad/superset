@@ -73,7 +73,7 @@ import {
 import {
   BigNumberWithTrendlineChartPluginUpgrade,
   BigNumberTotalChartPluginUpgrade,
-} from '@superset-ui/plugin-chart-BigNumber-upgrade';
+} from 'plugin-chart-bignumber-upgrade';
 import {
   SelectFilterPlugin,
   RangeFilterPlugin,
@@ -89,8 +89,8 @@ import { PopKPIPlugin } from '@superset-ui/plugin-chart-period-over-period-kpi';
 import { FilterPlugins } from 'src/constants';
 import TimeTableChartPlugin from '../TimeTable';
 //import { SupersetPluginChartHelloWorld } from 'superset-plugin-chart-hello-world';
-import {LiquidChartPlugin} from 'superset-plugin-chart-liquid';
 //import { Rose2ChartPlugin } from 'superset-plugin-chart-rose2';
+import { CircumplexChartPlugin }  from 'superset-plugin-chart-circumplex';
 
 export default class MainPreset extends Preset {
   constructor() {
@@ -106,7 +106,7 @@ export default class MainPreset extends Preset {
       plugins: [
         //new SupersetPluginChartHelloWorld().configure({ key: 'ext-hello-world' }),
         //new Rose2ChartPlugin().configure({ key: 'rose2_chart' }),
-        new LiquidChartPlugin().configure({ key: 'liquid' }),
+        new CircumplexChartPlugin().configure({ key: 'circumplex_chart' }),
         new AreaChartPlugin().configure({ key: 'area' }),
         new BarChartPlugin().configure({ key: 'bar' }),
         new BigNumberChartPlugin().configure({ key: 'big_number' }),
