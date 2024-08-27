@@ -293,19 +293,23 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
 
   function exportToExcel(elementSelector: string, fileName: string): void {
     const element = document.querySelector(elementSelector);
-    if (element) {
-      const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
-      const wb: XLSX.WorkBook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-      XLSX.writeFile(wb, `${fileName}.xlsx`);
-    } else {
-      console.error('Element not found.');
+    if (props.slice.viz_type == "pivot_table_v2" || props.slice.viz_type == "table") {
+      if (element) {
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        XLSX.writeFile(wb, `${fileName}.xlsx`);
+      } else {
+        console.error('Element not found.');
+      }
     }
+    else
+      props.exportXLSX?.(props.slice.slice_id);
   }
 
   function getPresentDate(): string {
     const date = new Date();
-    return `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`;
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
   }
 
   const handleMenuClick = ({
@@ -549,7 +553,6 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
           >
             {t('Export to Excel')}
           </Menu.Item>
-
           {isFeatureEnabled(FeatureFlag.AllowFullCsvExport) &&
             props.supersetCanCSV &&
             isTable && (
