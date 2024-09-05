@@ -33,12 +33,14 @@ import Button from 'src/components/Button';
 import { useToasts } from 'src/components/MessageToasts/withToasts';
 import { exportChart, getChartKey } from 'src/explore/exploreUtils';
 import downloadAsImage from 'src/utils/downloadAsImage';
+import downloadAsPdf from 'src/utils/downloadAsPdf';
 import { getChartPermalink } from 'src/utils/urlUtils';
 import copyTextToClipboard from 'src/utils/copy';
 import HeaderReportDropDown from 'src/features/reports/ReportModal/HeaderReportDropdown';
 import { logEvent } from 'src/logger/actions';
 import {
   LOG_ACTIONS_CHART_DOWNLOAD_AS_IMAGE,
+  LOG_ACTIONS_CHART_DOWNLOAD_AS_PDF,
   LOG_ACTIONS_CHART_DOWNLOAD_AS_JSON,
   LOG_ACTIONS_CHART_DOWNLOAD_AS_CSV,
   LOG_ACTIONS_CHART_DOWNLOAD_AS_CSV_PIVOTED,
@@ -57,6 +59,7 @@ const MENU_KEYS = {
   EXPORT_TO_JSON: 'export_to_json',
   EXPORT_TO_XLSX: 'export_to_xlsx',
   DOWNLOAD_AS_IMAGE: 'download_as_image',
+  DOWNLOAD_AS_PDF: 'download_as_pdf',
   SHARE_SUBMENU: 'share_submenu',
   COPY_PERMALINK: 'copy_permalink',
   EMBED_CODE: 'embed_code',
@@ -265,6 +268,21 @@ export const useExploreAdditionalActionsMenu = (
             }),
           );
           break;
+          case MENU_KEYS.DOWNLOAD_AS_PDF:
+            downloadAsPdf(
+              '.panel-body .chart-container',
+              // eslint-disable-next-line camelcase
+              slice?.slice_name ?? t('New chart'),
+              true,
+            )(domEvent);
+            setIsDropdownVisible(false);
+            dispatch(
+              logEvent(LOG_ACTIONS_CHART_DOWNLOAD_AS_PDF, {
+                chartId: slice?.slice_id,
+                chartName: slice?.slice_name,
+              }),
+            );
+            break;
         case MENU_KEYS.COPY_PERMALINK:
           copyLink();
           setIsDropdownVisible(false);
@@ -358,6 +376,12 @@ export const useExploreAdditionalActionsMenu = (
             icon={<Icons.FileImageOutlined css={iconReset} />}
           >
             {t('Download as image')}
+          </Menu.Item>
+          <Menu.Item
+            key={MENU_KEYS.DOWNLOAD_AS_PDF}
+            icon={<Icons.FileImageOutlined css={iconReset} />}
+          >
+            {t('Download as pdf')}
           </Menu.Item>
           <Menu.Item
             key={MENU_KEYS.EXPORT_TO_XLSX}

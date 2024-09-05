@@ -47,6 +47,7 @@ import { Menu } from 'src/components/Menu';
 import { NoAnimationDropdown } from 'src/components/Dropdown';
 import ShareMenuItems from 'src/dashboard/components/menu/ShareMenuItems';
 import downloadAsImage from 'src/utils/downloadAsImage';
+import downloadAsPdf from 'src/utils/downloadAsPdf';
 import { getSliceHeaderTooltip } from 'src/dashboard/util/getSliceHeaderTooltip';
 import { Tooltip } from 'src/components/Tooltip';
 import Icons from 'src/components/Icons';
@@ -56,13 +57,14 @@ import ViewQueryModal from 'src/explore/components/controls/ViewQueryModal';
 import { ResultsPaneOnDashboard } from 'src/explore/components/DataTablesPane';
 import Modal from 'src/components/Modal';
 import { DrillDetailMenuItems } from 'src/components/Chart/DrillDetail';
-import { LOG_ACTIONS_CHART_DOWNLOAD_AS_IMAGE } from 'src/logger/LogUtils';
+import { LOG_ACTIONS_CHART_DOWNLOAD_AS_IMAGE, LOG_ACTIONS_CHART_DOWNLOAD_AS_PDF } from 'src/logger/LogUtils';
 import { RootState } from 'src/dashboard/types';
 import { findPermission } from 'src/utils/findPermission';
 import { useCrossFiltersScopingModal } from '../nativeFilters/FilterBar/CrossFilters/ScopingModal/useCrossFiltersScopingModal';
 
 const MENU_KEYS = {
   DOWNLOAD_AS_IMAGE: 'download_as_image',
+  DOWNLOAD_AS_PDF: 'download_as_pdf',
   EXPLORE_CHART: 'explore_chart',
   EXPORT_CSV: 'export_csv',
   EXPORT_FULL_CSV: 'export_full_csv',
@@ -374,6 +376,26 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
         });
         break;
       }
+      case MENU_KEYS.DOWNLOAD_AS_PDF: {
+        // menu closes with a delay, we need to hide it manually,
+        // so that we don't capture it on the screenshot
+        const menu = document.querySelector(
+          '.ant-dropdown:not(.ant-dropdown-hidden)',
+        ) as HTMLElement;
+        menu.style.visibility = 'hidden';
+        downloadAsPdf(
+          getScreenshotNodeSelector(props.slice.slice_id),
+          props.slice.slice_name,
+          true,
+          // @ts-ignore
+        )(domEvent).then(() => {
+          menu.style.visibility = 'visible';
+        });
+        props.logEvent?.(LOG_ACTIONS_CHART_DOWNLOAD_AS_PDF, {
+          chartId: props.slice.slice_id,
+        });
+        break;
+      }
       case MENU_KEYS.CROSS_FILTER_SCOPING: {
         openScopingModal();
         break;
@@ -586,6 +608,12 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
             icon={<Icons.FileImageOutlined css={dropdownIconsStyles} />}
           >
             {t('Download as image')}
+          </Menu.Item>
+          <Menu.Item
+            key={MENU_KEYS.DOWNLOAD_AS_PDF}
+            icon={<Icons.FileImageOutlined css={dropdownIconsStyles} />}
+          >
+            {t('Download as pdf')}
           </Menu.Item>
         </Menu.SubMenu>
       )}
