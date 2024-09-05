@@ -55,6 +55,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
     subheader: '',
     subheaderFontSize: PROPORTION.SUBHEADER,
     timeRangeFixed: false,
+    bigNum:[],
   };
 
   getClassName() {
@@ -142,6 +143,63 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
       colorThresholdFormatters!.forEach(formatter => {
         const formatterResult = bigNumber
           ? formatter.getColorFromValue(bigNumber as number)
+          : false;
+        if (formatterResult) {
+          numberColor = formatterResult;
+        }
+      });
+    } else {
+      numberColor = 'black';
+    }
+
+    const container = this.createTemporaryContainer();
+    document.body.append(container);
+    const fontSize = computeMaxFontSize({
+      text,
+      maxWidth: width - 8, // Decrease 8px for more precise font size
+      maxHeight,
+      className: 'header-line',
+      container,
+    });
+    container.remove();
+
+    const onContextMenu = (e: MouseEvent<HTMLDivElement>) => {
+      if (this.props.onContextMenu) {
+        e.preventDefault();
+        this.props.onContextMenu(e.nativeEvent.clientX, e.nativeEvent.clientY);
+      }
+    };
+
+    return (
+      <div
+        className="header-line"
+        style={{
+          fontSize,
+          height: maxHeight,
+          color: numberColor,
+        }}
+        onContextMenu={onContextMenu}
+      >
+        {text}
+      </div>
+    ); 
+  }
+
+  renderCusHeader(maxHeight: number, index: number) {
+    const { bigNumber, headerFormatter, width, colorThresholdFormatters, value } =
+      this.props;
+    // @ts-ignore
+    const text = value[index] === null ? t('No data') : headerFormatter(value[index]);
+
+    const hasThresholdColorFormatter =
+      Array.isArray(colorThresholdFormatters) &&
+      colorThresholdFormatters.length > 0;
+
+    let numberColor;
+    if (hasThresholdColorFormatter) {
+      colorThresholdFormatters!.forEach(formatter => {
+        const formatterResult = value[index]
+          ? formatter.getColorFromValue(value[index] as number)
           : false;
         if (formatterResult) {
           numberColor = formatterResult;
@@ -278,8 +336,12 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
       kickerFontSize,
       headerFontSize,
       subheaderFontSize,
+      bigNum,
+      value
     } = this.props;
     const className = this.getClassName();
+    console.log(this.props);
+    let changeHeight = height / value.length;
 
     if (showTrendLine) {
       const chartHeight = Math.floor(PROPORTION.TRENDLINE * height);
@@ -309,12 +371,23 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
     }
 
     return (
-      <div className={className} style={{ height }}>
-        {this.renderFallbackWarning()}
-        {this.renderKicker((kickerFontSize || 0) * height)}
-        {this.renderHeader(Math.ceil(headerFontSize * height))}
-        {this.renderSubheader(Math.ceil(subheaderFontSize * height))}
-      </div>
+      // <div className={className} style={{ height }}>
+      //   {this.renderFallbackWarning()}
+      //   {this.renderKicker((kickerFontSize || 0) * height)}
+      //   {this.renderHeader(Math.ceil(headerFontSize * height))}
+      //   {this.renderSubheader(Math.ceil(subheaderFontSize * height))}
+      // </div>
+      <div>
+        {value.map((val:any, index:number) => (
+        <div className={className} style={{ height: changeHeight }}>
+
+            {this.renderFallbackWarning()}
+            {this.renderKicker((kickerFontSize || 0) * changeHeight)}
+            {this.renderCusHeader(Math.ceil(headerFontSize * changeHeight), index)}
+            {this.renderSubheader(Math.ceil(subheaderFontSize * changeHeight))}
+        </div>
+        ))}
+       </div>
     );
   }
 }

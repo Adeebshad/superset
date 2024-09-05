@@ -96,4 +96,6 @@ export type BigNumberVizProps = {
   formData?: BigNumberWithTrendlineFormData;
   refs: Refs;
   colorThresholdFormatters?: ColorFormatters;
+  bigNum?: any;
+  value?: any
 };
