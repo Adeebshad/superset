@@ -16,14 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { GenericDataType, smartDateFormatter, t , validateNonEmpty} from '@superset-ui/core';
+import { GenericDataType, smartDateFormatter, t } from '@superset-ui/core';
 import {
   ControlPanelConfig,
   D3_FORMAT_DOCS,
   D3_TIME_FORMAT_OPTIONS,
   Dataset,
   getStandardizedControls,
-  sharedControls,
 } from '@superset-ui/chart-controls';
 import { headerFontSize, subheaderFontSize } from '../sharedControls';
 
@@ -32,19 +31,7 @@ export default {
     {
       label: t('Query'),
       expanded: true,
-      controlSetRows: [
-      ['metrics'],
-      // [
-      //   {
-      //     name: 'metrics',
-      //     config: {
-      //       ...sharedControls.metrics,
-      //       validators: [validateNonEmpty],
-      //       rerender: ['conditional_formatting'],
-      //     },
-      //   },
-      // ],
-      ['adhoc_filters']],
+      controlSetRows: [['metric'], ['adhoc_filters']],
     },
     {
       label: t('Display settings'),
@@ -151,6 +138,6 @@ export default {
   },
   formDataOverrides: formData => ({
     ...formData,
-    metrics: getStandardizedControls().shiftMetric(),
+    metric: getStandardizedControls().shiftMetric(),
   }),
 } as ControlPanelConfig;

@@ -58,29 +58,10 @@ export default function transformProps(
   const refs: Refs = {};
   const { data = [], coltypes = [] } = queriesData[0];
   const granularity = extractTimegrain(rawFormData as QueryFormData);
-  const metricName = 'count';//getMetricLabel(metric);
+  const metricName = getMetricLabel(metric);
   const formattedSubheader = subheader;
-  //console.log(queriesData[0].colnames[0]);
   const bigNumber =
-    data.length === 0 ? null : parseMetricValue(data[0][queriesData[0].colnames[0]]); //  queriesData[0].colnames[0];
-  
-  let bigNum = queriesData[0].colnames;
-  let jkl = queriesData[0].data[0]
-  // for(let i=0; i <queriesData[0].colnames.length; i++) {
-  //   bigNum.push(parseMetricValue(data[0][queriesData[0].data[0].[i]]));
-
-  // }
-  console.log("Fg : ", queriesData[0].data[0]);
-  
-  console.log(bigNum);
-  let value = [];
-  for (let i = 0; i < bigNum.length; i++) {
-    let key = bigNum[i];   // Get the key from array B
-    value.push(queriesData[0].data[0][key]);   // Push the corresponding value from A into C
-  }
-  console.log(value);
-
-
+    data.length === 0 ? null : parseMetricValue(data[0][metricName]);
 
   let metricEntry: Metric | undefined;
   if (chartProps.datasource?.metrics) {
@@ -129,7 +110,5 @@ export default function transformProps(
     onContextMenu,
     refs,
     colorThresholdFormatters,
-    bigNum,
-    value,
   };
 }

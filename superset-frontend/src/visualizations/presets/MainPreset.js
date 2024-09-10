@@ -67,11 +67,11 @@ import {
   EchartsBubbleChartPlugin,
   EchartsWaterfallChartPlugin,
 } from '@superset-ui/plugin-chart-echarts';
-// import {
-//   BigNumberWithTrendlineChartPluginExtended,
-//   BigNumberTotalChartPluginExtended
-// } from '@superset-ui/plugin-chart-custom-big-number';
-import {BigNumberWithTrendlineChartPluginExtended, BigNumberTotalChartPluginExtended } from 'plugin-chart-custom-big-number';
+import {
+  BigNumberWithTrendlineChartPluginExtended,
+  BigNumberTotalChartPluginExtended
+} from '@superset-ui/plugin-chart-custom-big-number';
+// import {BigNumberWithTrendlineChartPluginExtended, BigNumberTotalChartPluginExtended } from 'plugin-chart-custom-big-number';
 import {
   SelectFilterPlugin,
   RangeFilterPlugin,
