@@ -343,11 +343,9 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
       headerFontSize,
       subheaderFontSize,
       backgroundColor,
-      bigNum,
       value
     } = this.props;
     const className = this.getClassName();
-    let changeHeight = (typeof value !== 'undefined') ? height / value.length : height;
     
     if (showTrendLine) {
       const chartHeight = Math.floor(PROPORTION.TRENDLINE * height);
@@ -378,14 +376,14 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
 
     return (
       <div style={{ height: height, overflow: 'auto', scrollbarGutter: 'stable' }}>
-        {value.map((val:any, index:number) => (
+      {value.map((val: any, index: number) => (
         <div className={className} style={{ height: height, backgroundColor: backgroundColor }}>
           {this.renderFallbackWarning()}
           {this.renderKicker((kickerFontSize || 0) * height)}
           {this.renderCusHeader(Math.ceil(headerFontSize * height), index)}
           {this.renderSubheader(Math.ceil(subheaderFontSize * height))}
         </div>
-        ))}
+      ))}
       </div>
     );
   }

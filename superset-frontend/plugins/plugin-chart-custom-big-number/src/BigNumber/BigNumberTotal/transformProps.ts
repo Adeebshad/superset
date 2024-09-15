@@ -68,7 +68,7 @@ export default function transformProps(
 
   let bigNum = queriesData[0].colnames;
   let value = [];   
-  if(typeof queriesData[0].data !== 'undefined'){
+  if (typeof queriesData[0].data !== 'undefined') {
     for (let i = 0; i < bigNum.length; i++) {
       let key = bigNum[i];
       value.push(queriesData[0].data[0][key]);
@@ -127,7 +127,6 @@ export default function transformProps(
     onContextMenu,
     refs,
     colorThresholdFormatters,
-    bigNum,
     value,
   };
 }
