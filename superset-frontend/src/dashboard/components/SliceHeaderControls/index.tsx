@@ -59,7 +59,12 @@ import { LOG_ACTIONS_CHART_DOWNLOAD_AS_IMAGE } from 'src/logger/LogUtils';
 import { RootState } from 'src/dashboard/types';
 import { findPermission } from 'src/utils/findPermission';
 import { useCrossFiltersScopingModal } from '../nativeFilters/FilterBar/CrossFilters/ScopingModal/useCrossFiltersScopingModal';
+<<<<<<< Updated upstream
+=======
 import * as XLSX from 'xlsx';
+import ExcelJS from 'exceljs';
+import html2canvas from 'html2canvas';  // Import html2canvas
+>>>>>>> Stashed changes
 
 const MENU_KEYS = {
   DOWNLOAD_AS_IMAGE: 'download_as_image',
@@ -67,7 +72,6 @@ const MENU_KEYS = {
   EXPORT_CSV: 'export_csv',
   EXPORT_FULL_CSV: 'export_full_csv',
   EXPORT_XLSX: 'export_xlsx',
-  EXPORT_CHART_XLSX: 'export_chart_xlsx',
   EXPORT_FULL_XLSX: 'export_full_xlsx',
   FORCE_REFRESH: 'force_refresh',
   FULLSCREEN: 'fullscreen',
@@ -292,27 +296,79 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
     }
   };
 
-  function exportToExcel(elementSelector: string, fileName: string): void {
-    const element = document.querySelector(elementSelector);
-    if (props.slice.viz_type == "pivot_table_v2" || props.slice.viz_type == "table") {
-      if (element) {
-        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
-        const wb: XLSX.WorkBook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-        XLSX.writeFile(wb, `${fileName}.xlsx`);
-      } else {
-        console.error('Element not found.');
-      }
+<<<<<<< Updated upstream
+=======
+//  function exportToExcel(elementSelector: string, fileName: string): void {
+//    const element = document.querySelector(elementSelector);
+//    if (props.slice.viz_type == "pivot_table_v2" || props.slice.viz_type == "table") {
+//      if (element) {
+//        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+//        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+//        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+//        XLSX.writeFile(wb, `${fileName}.xlsx`);
+//      } else {
+//        console.error('Element not found.');
+//      }
+//    }
+//    else
+//      props.exportXLSX?.(props.slice.slice_id);
+//  }
+
+async function exportToExcel(elementSelector: string, fileName: string): Promise<void> {
+  const element = document.querySelector(elementSelector) as HTMLElement;
+  if (element) {
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+
+    // If it's a table
+    if (props.slice.viz_type === 'pivot_table_v2'|| props.slice.viz_type === 'table'|| props.slice.viz_type === 'time_table'|| props.slice.viz_type === 'paired_ttest') {
+      const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+      XLSX.utils.book_append_sheet(wb, ws, 'Table Data');
+      XLSX.writeFile(wb, `${fileName}.xlsx`);
+    } else {
+    // Capture chart div as an image for non-table visualizations
+    const canvas = await html2canvas(element);
+    const imgData = canvas.toDataURL('image/png');
+
+    // Create a new workbook and add the image
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Chart Image');
+
+    const imageId = workbook.addImage({
+      base64: imgData,
+      extension: 'png',
+    });
+
+    worksheet.addImage(imageId, {
+      tl: { col: 1, row: 1 },
+      ext: { width: canvas.width, height: canvas.height },
+    });
+
+    // Write the Excel file to a buffer
+    const buffer = await workbook.xlsx.writeBuffer();
+
+    // Create a Blob from the buffer
+    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+    // Trigger a download in the browser
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${fileName}.xlsx`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
     }
-    else
-      props.exportXLSX?.(props.slice.slice_id);
+
+   
   }
+}
+
 
   function getPresentDate(): string {
     const date = new Date();
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
   }
 
+>>>>>>> Stashed changes
   const handleMenuClick = ({
     key,
     domEvent,
@@ -352,10 +408,37 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
         // eslint-disable-next-line no-unused-expressions
         props.exportXLSX?.(props.slice.slice_id);
         break;
-      case MENU_KEYS.EXPORT_CHART_XLSX:
-        // eslint-disable-next-line no-unused-expressions
-        exportToExcel(`#chart-id-${props.slice.slice_id}`,`Export-Report-${getPresentDate()}`,);
-        break;
+<<<<<<< Updated upstream
+=======
+        case MENU_KEYS.EXPORT_CHART_XLSX:
+          const chartSelector = getScreenshotNodeSelector(props.slice.slice_id);
+        
+          // Function to handle the full screen and screenshot
+          const captureFullScreenScreenshot = () => {
+            // Toggle to full screen
+            props.handleToggleFullSize();
+        
+            // Wait for the full screen transition to complete
+            setTimeout(() => {
+              // Capture screenshot
+              exportToExcel(chartSelector, `Export-Report-${getPresentDate()}`);
+        
+              // Revert back to the original size
+              props.handleToggleFullSize();
+            }, 1000); // Adjust the delay if necessary (1000ms = 1 second)
+          };
+        
+          // Check if the chart is not already full sized
+          if (!props.isFullSize) {
+            // Perform the full screen transition and capture screenshot
+            captureFullScreenScreenshot();
+          } else {
+            // If already full sized, directly capture the screenshot
+            exportToExcel(chartSelector, `Export-Report-${getPresentDate()}`);
+          }
+          break;
+        
+>>>>>>> Stashed changes
       case MENU_KEYS.DOWNLOAD_AS_IMAGE: {
         // menu closes with a delay, we need to hide it manually,
         // so that we don't capture it on the screenshot
@@ -554,15 +637,18 @@ const SliceHeaderControls = (props: SliceHeaderControlsPropsWithRouter) => {
           >
             {t('Export to Excel')}
           </Menu.Item>
-          {(props.slice.viz_type === 'pivot_table_v2' || props.slice.viz_type === 'table'|| 
-            props.slice.viz_type === 'time_table' || props.slice.viz_type === 'paired_ttest') && (
-            <Menu.Item
-              key={MENU_KEYS.EXPORT_CHART_XLSX}
-              icon={<Icons.FileExcelOutlined css={dropdownIconsStyles} />}
-            >
-              {t('Export Report to Excel')}
-            </Menu.Item>
-          )}
+<<<<<<< Updated upstream
+
+=======
+          
+          <Menu.Item
+            key={MENU_KEYS.EXPORT_CHART_XLSX}
+            icon={<Icons.FileExcelOutlined css={dropdownIconsStyles} />}
+          >
+            {t('Export Report to Excel')}
+          </Menu.Item>
+        
+>>>>>>> Stashed changes
           {isFeatureEnabled(FeatureFlag.AllowFullCsvExport) &&
             props.supersetCanCSV &&
             isTable && (
