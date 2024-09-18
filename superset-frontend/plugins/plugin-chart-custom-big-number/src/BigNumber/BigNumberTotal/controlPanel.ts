@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+let metricsLength = 0;
 import { GenericDataType, smartDateFormatter, t } from '@superset-ui/core';
 import {
   ControlPanelConfig,
@@ -25,6 +26,7 @@ import {
   getStandardizedControls,
 } from '@superset-ui/chart-controls';
 import { headerFontSize, subheaderFontSize, textColor, backgroundColor, subHeadTextColor } from '../sharedControls';
+import { generateTextControls } from './extendControlPanelSections';
 
 export default {
   controlPanelSections: [
@@ -38,19 +40,28 @@ export default {
       expanded: true,
       tabOverride: 'data',
       controlSetRows: [
-        [
-          {
-            name: 'subheader',
-            config: {
-              type: 'TextControl',
-              label: t('Subheader'),
-              renderTrigger: true,
-              description: t(
-                'Description text that shows up below your Big Number',
-              ),
-            },
-          },
-        ],
+        //[
+        //  {
+        //    name: 'subheader',
+        //    config: {
+        //      type: 'TextControl',
+        //      label: t('Subheader'),
+        //      renderTrigger: true,
+        //      description: t(
+        //        'Description text that shows up below your Big Number',
+        //      ),
+        //      shouldMapStateToProps() {
+        //        return true;
+        //      },
+        //      mapStateToProps(explore, _, chart) {
+        //        metricsLength = chart?.sliceFormData.metrics.length || 0;
+        //        console.log('Metrics Length inside mapStateToProps:', metricsLength);
+        //        return {};
+        //      },
+        //    },
+        //  },
+        //],
+        ...generateTextControls(10),
       ],
     },
     {
@@ -144,3 +155,4 @@ export default {
     metrics: getStandardizedControls().shiftMetric(),
   }),
 } as ControlPanelConfig;
+console.log('Metrics Length outside mapStateToProps:', metricsLength);

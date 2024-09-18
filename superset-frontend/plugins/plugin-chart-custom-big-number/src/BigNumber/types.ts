@@ -100,4 +100,7 @@ export type BigNumberVizProps = {
   refs: Refs;
   colorThresholdFormatters?: ColorFormatters;
   value?: any;
+  text1:string;
+  text2:string;
+  bigNumberConfig: any;
 };

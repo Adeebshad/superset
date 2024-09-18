@@ -27,10 +27,12 @@ import {
   extractTimegrain,
   QueryFormData,
   getValueFormatter,
+  t,
 } from '@superset-ui/core';
 import { BigNumberTotalChartProps, BigNumberVizProps } from '../types';
 import { getDateFormatter, parseMetricValue } from '../utils';
 import { Refs } from '../../types';
+import controlPanel from './controlPanel';
 
 export default function transformProps(
   chartProps: BigNumberTotalChartProps,
@@ -57,6 +59,16 @@ export default function transformProps(
     textColor,
     backgroundColor,
     subHeadTextColor,
+    text1,
+    text2,
+    text3,
+    text4,
+    text5,
+    text6,
+    text7,
+    text8,
+    text9,
+    text10,
   } = formData;
   const refs: Refs = {};
   const { data = [], coltypes = [] } = queriesData[0];
@@ -66,12 +78,22 @@ export default function transformProps(
   const bigNumber =
     data.length === 0 ? null : parseMetricValue(data[0][queriesData[0].colnames[0]]);
 
+
+  let bigNumberConfig = [];
+  let bigNumberTexts = [ text1, text2, text3, text4, text5, text6];  
   let bigNum = queriesData[0].colnames;
   let value = [];   
   if (typeof queriesData[0].data !== 'undefined') {
     for (let i = 0; i < bigNum.length; i++) {
       let key = bigNum[i];
       value.push(queriesData[0].data[0][key]);
+      bigNumberConfig.push({
+        subHeader: bigNumberTexts[i],
+        subHeaderColour:'',
+        bigNumberText: queriesData[0].data[0][key],
+        bigNumberTextColour:'',
+        backgoundColour:''
+      })
     }
   }
 
@@ -128,5 +150,8 @@ export default function transformProps(
     refs,
     colorThresholdFormatters,
     value,
+    text1,
+    text2,
+    bigNumberConfig
   };
 }

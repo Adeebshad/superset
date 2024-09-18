@@ -43,8 +43,10 @@ const PROPORTION = {
   subheadtext: 'black',
   bgColor: 'white',
 };
-
-class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
+interface BigNumberVisState {
+  clickedIndexes: { [index: number]: string }; // Keep track of clicked indices and their colors
+}
+class BigNumberVis extends React.PureComponent<BigNumberVizProps, BigNumberVisState> {
   static defaultProps = {
     className: '',
     headerFormatter: defaultNumberFormatter,
@@ -62,6 +64,26 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
     backgroundColor:PROPORTION.bgColor,
     timeRangeFixed: false,
   };
+
+  ////
+  constructor(props: BigNumberVizProps) {
+    super(props);
+    this.state = {
+      clickedIndexes: {}, // Initialize with empty object
+    };
+  }
+
+  handleDivClick = (index: number) => {
+    this.setState(prevState => ({
+      clickedIndexes: {
+        ...prevState.clickedIndexes,
+        [index]: prevState.clickedIndexes[index] ? '' : this.props.textColor // Toggle color on click
+      },
+    }));
+  };
+
+
+  ////
 
   getClassName() {
     const { className, showTrendLine, bigNumberFallback } = this.props;
@@ -193,6 +215,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
   renderCusHeader(maxHeight: number, index: number) {
     const { bigNumber, headerFormatter, width, colorThresholdFormatters, value, textColor } =
       this.props;
+      const { clickedIndexes } = this.state;
     // @ts-ignore
     const text = value[index] === null ? t('No data') : headerFormatter(value[index]);
 
@@ -201,6 +224,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
       colorThresholdFormatters.length > 0;
 
     let numberColor;
+    let previousColor;
     if (hasThresholdColorFormatter) {
       colorThresholdFormatters!.forEach(formatter => {
         const formatterResult = value[index]
@@ -211,6 +235,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
         }
       });
     } else {
+      previousColor = numberColor;
       numberColor = textColor;
     }
 
@@ -232,6 +257,8 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
       }
     };
 
+    numberColor = clickedIndexes[index] || textColor; // Apply color based on clickedIndexes
+
     return (
       <div
         className="header-line"
@@ -241,6 +268,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
           color: numberColor,
         }}
         onContextMenu={onContextMenu}
+        onClick={() => this.handleDivClick(index)} // Set clicked index on click
       >
         {text}
       </div>
@@ -346,6 +374,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
       value
     } = this.props;
     const className = this.getClassName();
+    let changeHeight = (typeof value !== 'undefined') ? height / value.length : height;
     
     if (showTrendLine) {
       const chartHeight = Math.floor(PROPORTION.TRENDLINE * height);
@@ -376,14 +405,14 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
 
     return (
       <div style={{ height: height, overflow: 'auto', scrollbarGutter: 'stable' }}>
-      {value.map((val: any, index: number) => (
-        <div className={className} style={{ height: height, backgroundColor: backgroundColor }}>
+        {value.map((val:any, index:number) => (
+        <div className={this.getClassName()} style={{ height: height, backgroundColor: backgroundColor }} key={index}>
           {this.renderFallbackWarning()}
           {this.renderKicker((kickerFontSize || 0) * height)}
           {this.renderCusHeader(Math.ceil(headerFontSize * height), index)}
           {this.renderSubheader(Math.ceil(subheaderFontSize * height))}
         </div>
-      ))}
+        ))}
       </div>
     );
   }
