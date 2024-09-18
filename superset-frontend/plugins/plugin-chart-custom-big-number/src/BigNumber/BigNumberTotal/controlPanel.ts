@@ -25,6 +25,7 @@ import {
   getStandardizedControls,
 } from '@superset-ui/chart-controls';
 import { headerFontSize, subheaderFontSize, textColor, backgroundColor, subHeadTextColor } from '../sharedControls';
+import { generateTextControls } from './extendControlPanelSections';
 
 export default {
   controlPanelSections: [
@@ -38,19 +39,7 @@ export default {
       expanded: true,
       tabOverride: 'data',
       controlSetRows: [
-        [
-          {
-            name: 'subheader',
-            config: {
-              type: 'TextControl',
-              label: t('Subheader'),
-              renderTrigger: true,
-              description: t(
-                'Description text that shows up below your Big Number',
-              ),
-            },
-          },
-        ],
+        ...generateTextControls(10),
       ],
     },
     {
