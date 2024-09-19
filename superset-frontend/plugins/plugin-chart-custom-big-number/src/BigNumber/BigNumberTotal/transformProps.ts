@@ -120,7 +120,7 @@ export default function transformProps(
   };
 }
 
-function bigNumberConfigProvider(formData:any , data:any) {
+function bigNumberConfigProvider(formData:any , queriesData:any) {
   const { text1, text2, text3, text4, text5, text6, text7, text8, text9, text10} = formData;
   const { backgroundColor, backgroundColor1 ,backgroundColor2, backgroundColor3, backgroundColor4, 
     backgroundColor5, backgroundColor6, backgroundColor7, backgroundColor8, backgroundColor9, backgroundColor10 } = formData;
@@ -132,9 +132,9 @@ function bigNumberConfigProvider(formData:any , data:any) {
     subHeaderTextColor6, subHeaderTextColor7, subHeaderTextColor8, subHeaderTextColor9, subHeaderTextColor10 } = formData; 
 
   let bigNumberConfig = [];
-  let bigNum = data.colnames;
+  let bigNum = queriesData.colnames;
   let value = [];   
-  if (typeof data.data !== 'undefined') {
+  if (typeof queriesData.data !== 'undefined') {
     for (let i = 0; i < bigNum.length ; i++) {
       let key = bigNum[i];
       let index = i+1;
@@ -142,11 +142,11 @@ function bigNumberConfigProvider(formData:any , data:any) {
       let backgoundColour = eval('backgroundColor' + index);
       let textColour = eval('textColor' + index);
       let subHeaderTextColour = eval('subHeaderTextColor' + index);
-      value.push(data.data[0][key]);
+      value.push(queriesData.data[0][key]);
       bigNumberConfig.push({
         subHeader: subHeaderText,
         subHeaderTextColour: subHeaderTextColour,
-        bigNumberText: data.data[0][key],
+        bigNumberText: queriesData.data[0][key],
         textColour: textColour,
         backgoundColour: backgoundColour
       })
