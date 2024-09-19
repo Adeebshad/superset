@@ -25,7 +25,7 @@ import {
   getStandardizedControls,
 } from '@superset-ui/chart-controls';
 import { headerFontSize, subheaderFontSize, textColor, backgroundColor, subHeadTextColor } from '../sharedControls';
-import { generateTextControls } from './extendControlPanelSections';
+import { backgroundColorControl, generateTextControls, subHeadTextColorControl } from './extendControlPanelSections';
 
 export default {
   controlPanelSections: [
@@ -122,6 +122,15 @@ export default {
         ],
       ],
     },
+    {
+      label: t('Chart Colour Options'),
+      expanded: true,
+      controlSetRows: [
+        ...backgroundColorControl(10),
+        ...subHeadTextColorControl('Sub_Header_Text_Color_',10),
+        ...subHeadTextColorControl('Text_Color_',10),
+      ]
+    }
   ],
   controlOverrides: {
     y_axis_format: {

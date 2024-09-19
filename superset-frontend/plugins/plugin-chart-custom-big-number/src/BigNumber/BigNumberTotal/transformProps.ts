@@ -31,7 +31,6 @@ import {
 import { BigNumberTotalChartProps, BigNumberVizProps } from '../types';
 import { getDateFormatter, parseMetricValue } from '../utils';
 import { Refs } from '../../types';
-import controlPanel from './controlPanel';
 
 export default function transformProps(
   chartProps: BigNumberTotalChartProps,
@@ -56,18 +55,7 @@ export default function transformProps(
     conditionalFormatting,
     currencyFormat,
     textColor,
-    backgroundColor,
     subHeadTextColor,
-    text1,
-    text2,
-    text3,
-    text4,
-    text5,
-    text6,
-    text7,
-    text8,
-    text9,
-    text10,
   } = formData;
   const refs: Refs = {};
   const { data = [], coltypes = [] } = queriesData[0];
@@ -76,28 +64,8 @@ export default function transformProps(
   const formattedSubheader = subheader;
   const bigNumber =
     data.length === 0 ? null : parseMetricValue(data[0][queriesData[0].colnames[0]]);
-
-  let bigNumberConfig = [];
-  let bigNumberTexts = [ text1, text2, text3, text4, text5, text6];
-  let bigNum = queriesData[0].colnames;
-  let value = [];   
-  if (typeof queriesData[0].data !== 'undefined') {
-    for (let i = 0; i < bigNum.length ; i++) {
-      let key = bigNum[i];
-      // let index = i+1;
-      // let textValue = eval('text' + index);
-      value.push(queriesData[0].data[0][key]);
-      bigNumberConfig.push({
-        subHeader: bigNumberTexts[i],
-        subHeaderColour:'',
-        bigNumberText: queriesData[0].data[0][key],
-        bigNumberTextColour:'',
-        backgoundColour:''
-      })
-    }
-  }
-
-
+  
+  let bigNumberConfig = bigNumberConfigProvider(formData, queriesData[0]);
 
   let metricEntry: Metric | undefined;
   if (chartProps.datasource?.metrics) {
@@ -143,15 +111,46 @@ export default function transformProps(
     headerFontSize,
     subheaderFontSize,
     textColor,
-    backgroundColor,
     subHeadTextColor,
     subheader: formattedSubheader,
     onContextMenu,
     refs,
     colorThresholdFormatters,
-    value,
-    text1,
-    text2,
     bigNumberConfig
   };
+}
+
+function bigNumberConfigProvider(formData:any , data:any) {
+  const { text1, text2, text3, text4, text5, text6, text7, text8, text9, text10} = formData;
+  const { backgroundColor, backgroundColor1 ,backgroundColor2, backgroundColor3, backgroundColor4, 
+    backgroundColor5, backgroundColor6, backgroundColor7, backgroundColor8, backgroundColor9, backgroundColor10 } = formData;
+
+  const { textColor1, textColor2, textColor3, textColor4, textColor5, 
+      textColor6, textColor7, textColor8, textColor9, textColor10 } = formData;
+  
+  const { subHeaderTextColor1, subHeaderTextColor2, subHeaderTextColor3, subHeaderTextColor4, subHeaderTextColor5,
+    subHeaderTextColor6, subHeaderTextColor7, subHeaderTextColor8, subHeaderTextColor9, subHeaderTextColor10 } = formData; 
+
+  let bigNumberConfig = [];
+  let bigNum = data.colnames;
+  let value = [];   
+  if (typeof data.data !== 'undefined') {
+    for (let i = 0; i < bigNum.length ; i++) {
+      let key = bigNum[i];
+      let index = i+1;
+      let subHeaderText = eval('text' + index);
+      let backgoundColour = eval('backgroundColor' + index);
+      let textColour = eval('textColor' + index);
+      let subHeaderTextColour = eval('subHeaderTextColor' + index);
+      value.push(data.data[0][key]);
+      bigNumberConfig.push({
+        subHeader: subHeaderText,
+        subHeaderTextColour: subHeaderTextColour,
+        bigNumberText: data.data[0][key],
+        textColour: textColour,
+        backgoundColour: backgoundColour
+      })
+    }
+  }
+  return bigNumberConfig;
 }
