@@ -31,7 +31,7 @@ import { BigNumberVizProps } from './types';
 import { EventHandlers } from '../types';
 
 const defaultNumberFormatter = getNumberFormatter();
-
+let lastclicked = 1;
 const PROPORTION = {
   // text size: proportion of the chart container sans trendline
   KICKER: 0.1,
@@ -337,14 +337,18 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
 
   handleClick = (param:any) => (event) => {
     // Handle the click event and use the parameter
+    const {bigNumberConfig } = this.props;
     console.log('Div clicked with parameter:', param);
-    for (let i=1; i < 6 ; i++) {
+    for (let i=1; i <= bigNumberConfig.length+1 ; i++) {
       let selector = 'input[aria-label="text' + i + '"]' 
       document.querySelectorAll(selector).forEach((element) => {
         const parentDiv = element.closest('div[data-test="control-item"]');
         if (parentDiv) {
-          if(param + 1 == i)
+          if(param + 1 == i){
+            lastclicked = param + 1;
             parentDiv.style.display = 'block';
+          }
+            
           else 
             parentDiv.style.display = 'none';
         }
@@ -413,12 +417,13 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
     const className = this.getClassName();
 
     $( document ).ready(function() {
-      for (let i=bigNumberConfig.length+1; i <= 10 ; i++) {
+      for (let i=1; i <= 100 ; i++) {
         let selector = 'input[aria-label="text' + i + '"]' 
         document.querySelectorAll(selector).forEach((element) => {
           const parentDiv = element.closest('div[data-test="control-item"]');
           if (parentDiv) {
-              parentDiv.style.display = 'none';
+            parentDiv.style.display = i === lastclicked ? 'block' : 'none';
+
           }
         });
       }
