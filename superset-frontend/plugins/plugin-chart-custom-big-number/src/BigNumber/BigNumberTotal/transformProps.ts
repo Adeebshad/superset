@@ -26,8 +26,7 @@ import {
   getMetricLabel,
   extractTimegrain,
   QueryFormData,
-  getValueFormatter,
-  t,
+  getValueFormatter, t,
 } from '@superset-ui/core';
 import { BigNumberTotalChartProps, BigNumberVizProps } from '../types';
 import { getDateFormatter, parseMetricValue } from '../utils';
@@ -57,18 +56,8 @@ export default function transformProps(
     conditionalFormatting,
     currencyFormat,
     textColor,
-    backgroundColor,
     subHeadTextColor,
-    text1,
-    text2,
-    text3,
-    text4,
-    text5,
-    text6,
-    text7,
-    text8,
-    text9,
-    text10,
+    backgroundColor,
   } = formData;
   const refs: Refs = {};
   const { data = [], coltypes = [] } = queriesData[0];
@@ -77,27 +66,8 @@ export default function transformProps(
   const formattedSubheader = subheader;
   const bigNumber =
     data.length === 0 ? null : parseMetricValue(data[0][queriesData[0].colnames[0]]);
-
-
-  let bigNumberConfig = [];
-  let bigNumberTexts = [ text1, text2, text3, text4, text5, text6];  
-  let bigNum = queriesData[0].colnames;
-  let value = [];   
-  if (typeof queriesData[0].data !== 'undefined') {
-    for (let i = 0; i < bigNum.length; i++) {
-      let key = bigNum[i];
-      value.push(queriesData[0].data[0][key]);
-      bigNumberConfig.push({
-        subHeader: bigNumberTexts[i],
-        subHeaderColour:'',
-        bigNumberText: queriesData[0].data[0][key],
-        bigNumberTextColour:'',
-        backgoundColour:''
-      })
-    }
-  }
-
-
+  
+  let bigNumberConfig = bigNumberConfigProvider(formData, queriesData[0]);
 
   let metricEntry: Metric | undefined;
   if (chartProps.datasource?.metrics) {
@@ -143,15 +113,47 @@ export default function transformProps(
     headerFontSize,
     subheaderFontSize,
     textColor,
-    backgroundColor,
     subHeadTextColor,
+    backgroundColor,
     subheader: formattedSubheader,
     onContextMenu,
     refs,
     colorThresholdFormatters,
-    value,
-    text1,
-    text2,
     bigNumberConfig
   };
 }
+
+function bigNumberConfigProvider(formData: any, queriesData: any) {
+  const {
+    text1, text2, text3, text4, text5, text6, text7, text8, text9, text10,
+    backgroundColor1, backgroundColor2, backgroundColor3, backgroundColor4, 
+    backgroundColor5, backgroundColor6, backgroundColor7, backgroundColor8, backgroundColor9, backgroundColor10,
+    textColor1, textColor2, textColor3, textColor4, textColor5, textColor6, textColor7, textColor8, textColor9, textColor10,
+    subHeaderTextColor1, subHeaderTextColor2, subHeaderTextColor3, subHeaderTextColor4, subHeaderTextColor5, subHeaderTextColor6,
+    subHeaderTextColor7, subHeaderTextColor8, subHeaderTextColor9, subHeaderTextColor10
+  } = formData;
+
+  const texts = [text1, text2, text3, text4, text5, text6, text7, text8, text9, text10];
+  const backgroundColors = [backgroundColor1, backgroundColor2, backgroundColor3, backgroundColor4, backgroundColor5, backgroundColor6, backgroundColor7, backgroundColor8, backgroundColor9, backgroundColor10];
+  const textColors = [textColor1, textColor2, textColor3, textColor4, textColor5, textColor6, textColor7, textColor8, textColor9, textColor10];
+  const subHeaderTextColors = [subHeaderTextColor1, subHeaderTextColor2, subHeaderTextColor3, subHeaderTextColor4, subHeaderTextColor5, subHeaderTextColor6, subHeaderTextColor7, subHeaderTextColor8, subHeaderTextColor9, subHeaderTextColor10];
+
+  let bigNumberConfig = [];
+  const columns = queriesData.colnames;
+  
+  if (queriesData.data) {
+    for (let i = 0; i < columns.length; i++) {
+      const key = columns[i];
+      bigNumberConfig.push({
+        subHeader: texts[i] || '',
+        subHeaderTextColour: subHeaderTextColors[i] || '',
+        bigNumberText: queriesData.data[0][key] || '',
+        textColour: textColors[i] || '',
+        backgoundColour: backgroundColors[i] || ''
+      });
+    }
+  }
+
+  return bigNumberConfig;
+}
+

@@ -26,7 +26,7 @@ import {
   getStandardizedControls,
 } from '@superset-ui/chart-controls';
 import { headerFontSize, subheaderFontSize, textColor, backgroundColor, subHeadTextColor } from '../sharedControls';
-import { generateTextControls } from './extendControlPanelSections';
+import { backgroundColorControl, generateTextControls, subHeadTextColorControl } from './extendControlPanelSections';
 
 export default {
   controlPanelSections: [
@@ -40,27 +40,6 @@ export default {
       expanded: true,
       tabOverride: 'data',
       controlSetRows: [
-        //[
-        //  {
-        //    name: 'subheader',
-        //    config: {
-        //      type: 'TextControl',
-        //      label: t('Subheader'),
-        //      renderTrigger: true,
-        //      description: t(
-        //        'Description text that shows up below your Big Number',
-        //      ),
-        //      shouldMapStateToProps() {
-        //        return true;
-        //      },
-        //      mapStateToProps(explore, _, chart) {
-        //        metricsLength = chart?.sliceFormData.metrics.length || 0;
-        //        console.log('Metrics Length inside mapStateToProps:', metricsLength);
-        //        return {};
-        //      },
-        //    },
-        //  },
-        //],
         ...generateTextControls(10),
       ],
     },
@@ -144,6 +123,15 @@ export default {
         ],
       ],
     },
+    {
+      label: t('Chart Colour Options'),
+      expanded: true,
+      controlSetRows: [
+        ...backgroundColorControl(10),
+        ...subHeadTextColorControl('Sub_Header_Text_Color_',10),
+        ...subHeadTextColorControl('Text_Color_',10),
+      ]
+    }
   ],
   controlOverrides: {
     y_axis_format: {

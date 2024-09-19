@@ -1,11 +1,8 @@
 import { t } from '@superset-ui/core';
-import { BigNumberTotalChartProps, BigNumberVizProps } from '../types';
 
 // externalConfig.js
 export const generateTextControls = (count: number) => {
   const controls = [];
-  // BigNumberTotalChartProps er = BigNumberTotalChartProps(); 
-  // transformProps(BigNumberTotalChartProps);
   console.log('global : ', count);
   for (let i = 1; i <= count; i++) {
     controls.push([
@@ -24,35 +21,100 @@ export const generateTextControls = (count: number) => {
 };
 
 
+export const backgroundColorControl = (count : number) =>{
+  const controls = [];
+  for (let i = 1; i <= count; i++) {
+    controls.push([{
+      name: 'background_color_'+ i,
+      config: {
+      type: 'SelectControl',
+      label: t(`background_color_` + i),
+      renderTrigger: true,
+      clearable: false,
+      default: 'white',
+      // Values represent the percentage of space a subheader should take
+      options: [
+        {
+          label: t('Cornsilk'),
+          value: '#FFF8DC',
+        },
+        {
+          label: t('White'),
+          value: 'white',
+        },
+        {
+          label: t('Seashell'),
+          value: '#FFF5EE',
+        },
+        {
+          label: t('Misty Rose'),
+          value: '#FFE4E1',
+        },
+        {
+          label: t('Yellow'),
+          value: '#eff542',
+        },
+        {
+          label: t('Lemon Chiffon'),
+          value: '#FFFACD',
+        },
+        {
+          label: t('Lavender Blush'),
+          value: '#FFF0F5',
+        },
+      ],
+    },
+  }])
+ }
+return controls;
+}
 
-// function transformProps(
-//   chartProps: BigNumberTotalChartProps,
-// ) {
-//   const {
-//     width,
-//     height,
-//     queriesData,
-//     formData,
-//     rawFormData,
-//     hooks,
-//   } = chartProps;
-//   const {
-//     subheader = '',
+// subHeadTextColor
 
-//   } = formData;
-//   const refs: Refs = {};
-//   const { data = [], coltypes = [] } = queriesData[0];
-//   // const granularity = extractTimegrain(rawFormData as QueryFormData);
-//   // const metricName = getMetricLabel(metric);
-//   const formattedSubheader = subheader;
-//   const bigNumber =
-//     data.length === 0 ? null : parseMetricValue(data[0][queriesData[0].colnames[0]]);
-
-//   console.log(data[0][queriesData[0].colnames[0]]);
-
-//   return {
-//     width,
-//     height,
-//     bigNumber,
-//   };
-// }
+export const subHeadTextColorControl = ( textPortion: string , count : number) =>{
+  const controls = [];
+  for (let i = 1; i <= count; i++) {
+    controls.push([{
+      name: textPortion + i,
+      config: {
+      type: 'SelectControl',
+      label: t(textPortion + i),
+      renderTrigger: true,
+      clearable: false,
+      default: 'black',
+      // Values represent the percentage of space a subheader should take
+      options: [
+        {
+          label: t('Jet Black'),
+          value: '#343434',
+        },
+        {
+          label: t('White'),
+          value: 'white',
+        },
+        {
+          label: t('Charcoal'),
+          value: '#36454F',
+        },
+        {
+          label: t('Misty Rose'),
+          value: '#FFE4E1',
+        },
+        {
+          label: t('Black'),
+          value: 'black',
+        },
+        {
+          label: t('Golden Brown'),
+          value: '#996515',
+        },
+        {
+          label: t('Chocolate'),
+          value: '#D2691E',
+        },
+      ],
+    },
+  }])
+ }
+  return controls;
+}

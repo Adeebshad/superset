@@ -192,10 +192,10 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
   }
 
   renderCusHeader(maxHeight: number, index: number) {
-    const { bigNumber, headerFormatter, width, colorThresholdFormatters, value, textColor } =
+    const { bigNumber, headerFormatter, width, colorThresholdFormatters, bigNumberConfig } =
       this.props;
     // @ts-ignore
-    const text = value[index] === null ? t('No data') : headerFormatter(value[index]);
+    const text = bigNumberConfig[index].bigNumberText === null ? t('No data') : headerFormatter(bigNumberConfig[index].bigNumberText);
 
     const hasThresholdColorFormatter =
       Array.isArray(colorThresholdFormatters) &&
@@ -204,15 +204,15 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
     let numberColor;
     if (hasThresholdColorFormatter) {
       colorThresholdFormatters!.forEach(formatter => {
-        const formatterResult = value[index]
-          ? formatter.getColorFromValue(value[index] as number)
+        const formatterResult = bigNumberConfig[index].bigNumberText
+          ? formatter.getColorFromValue(bigNumberConfig[index].bigNumberText as number)
           : false;
         if (formatterResult) {
           numberColor = formatterResult;
         }
       });
     } else {
-      numberColor = textColor;
+      numberColor = bigNumberConfig[index].textColour;
     }
 
     const container = this.createTemporaryContainer();
@@ -291,7 +291,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
   }
 
   renderCusSubheader(maxHeight: number, idx: number) {
-    const { bigNumber, subheader, width, bigNumberFallback, subHeadTextColor, text1, text2, bigNumberConfig } = this.props;
+    const { bigNumber, subheader, width, bigNumberFallback, subHeadTextColor, bigNumberConfig } = this.props;
     let fontSize = 0;
 
     const NO_DATA_OR_HASNT_LANDED = t(
@@ -304,12 +304,6 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
     if (bigNumber === null) {
       text = bigNumberFallback ? NO_DATA : NO_DATA_OR_HASNT_LANDED;
     }
-
-    // if (idx+1 == 1) {
-    //   text = text1;
-    // } else if(idx+1 == 2) {
-    //   text = text2;
-    // }
 
     text = bigNumberConfig[idx].subHeader;
 
@@ -331,7 +325,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
           style={{
             fontSize,
             height: maxHeight,
-            color:subHeadTextColor,
+            color:bigNumberConfig[idx].subHeaderTextColour,
           }}
         >
           {text}
@@ -341,7 +335,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
     return null;
   }
 
-  handleClick = (param) => (event) => {
+  handleClick = (param:any) => (event) => {
     // Handle the click event and use the parameter
     console.log('Div clicked with parameter:', param);
     for (let i=1; i < 6 ; i++) {
@@ -414,12 +408,12 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
       headerFontSize,
       subheaderFontSize,
       backgroundColor,
-      value
+      bigNumberConfig
     } = this.props;
     const className = this.getClassName();
 
     $( document ).ready(function() {
-      for (let i=value.length+1; i <= 10 ; i++) {
+      for (let i=bigNumberConfig.length+1; i <= 10 ; i++) {
         let selector = 'input[aria-label="text' + i + '"]' 
         document.querySelectorAll(selector).forEach((element) => {
           const parentDiv = element.closest('div[data-test="control-item"]');
@@ -429,7 +423,6 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
         });
       }
     });
-    console.log(value);
 
     if (showTrendLine) {
       const chartHeight = Math.floor(PROPORTION.TRENDLINE * height);
@@ -460,10 +453,10 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
 
     return (
       <div style={{ height: height, overflow: 'auto', scrollbarGutter: 'stable' }}>
-      {value.map((val: any, index: number) => (
+      {bigNumberConfig.map((val: any, index: number) => (
         <div 
         className={className} 
-        style={{ height: height, backgroundColor: backgroundColor }}
+        style={{ height: height, backgroundColor: bigNumberConfig[index].backgoundColour }}
         onClick={this.handleClick(index)}>
           {this.renderFallbackWarning()}
           {this.renderKicker((kickerFontSize || 0) * height)}
