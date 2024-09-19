@@ -120,37 +120,37 @@ export default function transformProps(
   };
 }
 
-function bigNumberConfigProvider(formData:any , queriesData:any) {
-  const { text1, text2, text3, text4, text5, text6, text7, text8, text9, text10} = formData;
-  const { backgroundColor, backgroundColor1 ,backgroundColor2, backgroundColor3, backgroundColor4, 
-    backgroundColor5, backgroundColor6, backgroundColor7, backgroundColor8, backgroundColor9, backgroundColor10 } = formData;
+function bigNumberConfigProvider(formData: any, queriesData: any) {
+  const {
+    text1, text2, text3, text4, text5, text6, text7, text8, text9, text10,
+    backgroundColor1, backgroundColor2, backgroundColor3, backgroundColor4, 
+    backgroundColor5, backgroundColor6, backgroundColor7, backgroundColor8, backgroundColor9, backgroundColor10,
+    textColor1, textColor2, textColor3, textColor4, textColor5, textColor6, textColor7, textColor8, textColor9, textColor10,
+    subHeaderTextColor1, subHeaderTextColor2, subHeaderTextColor3, subHeaderTextColor4, subHeaderTextColor5, subHeaderTextColor6,
+    subHeaderTextColor7, subHeaderTextColor8, subHeaderTextColor9, subHeaderTextColor10
+  } = formData;
 
-  const { textColor1, textColor2, textColor3, textColor4, textColor5, 
-      textColor6, textColor7, textColor8, textColor9, textColor10 } = formData;
-  
-  const { subHeaderTextColor1, subHeaderTextColor2, subHeaderTextColor3, subHeaderTextColor4, subHeaderTextColor5,
-    subHeaderTextColor6, subHeaderTextColor7, subHeaderTextColor8, subHeaderTextColor9, subHeaderTextColor10 } = formData; 
+  const texts = [text1, text2, text3, text4, text5, text6, text7, text8, text9, text10];
+  const backgroundColors = [backgroundColor1, backgroundColor2, backgroundColor3, backgroundColor4, backgroundColor5, backgroundColor6, backgroundColor7, backgroundColor8, backgroundColor9, backgroundColor10];
+  const textColors = [textColor1, textColor2, textColor3, textColor4, textColor5, textColor6, textColor7, textColor8, textColor9, textColor10];
+  const subHeaderTextColors = [subHeaderTextColor1, subHeaderTextColor2, subHeaderTextColor3, subHeaderTextColor4, subHeaderTextColor5, subHeaderTextColor6, subHeaderTextColor7, subHeaderTextColor8, subHeaderTextColor9, subHeaderTextColor10];
 
   let bigNumberConfig = [];
-  let bigNum = queriesData.colnames;
-  let value = [];   
-  if (typeof queriesData.data !== 'undefined') {
-    for (let i = 0; i < bigNum.length ; i++) {
-      let key = bigNum[i];
-      let index = i+1;
-      let subHeaderText = eval('text' + index);
-      let backgoundColour = eval('backgroundColor' + index);
-      let textColour = eval('textColor' + index);
-      let subHeaderTextColour = eval('subHeaderTextColor' + index);
-      value.push(queriesData.data[0][key]);
+  const columns = queriesData.colnames;
+  
+  if (queriesData.data) {
+    for (let i = 0; i < columns.length; i++) {
+      const key = columns[i];
       bigNumberConfig.push({
-        subHeader: subHeaderText,
-        subHeaderTextColour: subHeaderTextColour,
-        bigNumberText: queriesData.data[0][key],
-        textColour: textColour,
-        backgoundColour: backgoundColour
-      })
+        subHeader: texts[i] || '',
+        subHeaderTextColour: subHeaderTextColors[i] || '',
+        bigNumberText: queriesData.data[0][key] || '',
+        textColour: textColors[i] || '',
+        backgoundColour: backgroundColors[i] || ''
+      });
     }
   }
+
   return bigNumberConfig;
 }
+
