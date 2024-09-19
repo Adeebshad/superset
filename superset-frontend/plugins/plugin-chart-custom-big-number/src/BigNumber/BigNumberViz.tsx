@@ -407,6 +407,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
       kickerFontSize,
       headerFontSize,
       subheaderFontSize,
+      backgroundColor,
       bigNumberConfig
     } = this.props;
     const className = this.getClassName();
