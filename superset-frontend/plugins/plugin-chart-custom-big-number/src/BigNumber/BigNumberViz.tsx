@@ -43,10 +43,9 @@ const PROPORTION = {
   subheadtext: 'black',
   bgColor: 'white',
 };
-interface BigNumberVisState {
-  clickedIndexes: { [index: number]: string }; // Keep track of clicked indices and their colors
-}
-class BigNumberVis extends React.PureComponent<BigNumberVizProps, BigNumberVisState> {
+declare var $: any;
+
+class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
   static defaultProps = {
     className: '',
     headerFormatter: defaultNumberFormatter,
@@ -64,26 +63,6 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps, BigNumberVisSt
     backgroundColor:PROPORTION.bgColor,
     timeRangeFixed: false,
   };
-
-  ////
-  constructor(props: BigNumberVizProps) {
-    super(props);
-    this.state = {
-      clickedIndexes: {}, // Initialize with empty object
-    };
-  }
-
-  handleDivClick = (index: number) => {
-    this.setState(prevState => ({
-      clickedIndexes: {
-        ...prevState.clickedIndexes,
-        [index]: prevState.clickedIndexes[index] ? '' : this.props.textColor // Toggle color on click
-      },
-    }));
-  };
-
-
-  ////
 
   getClassName() {
     const { className, showTrendLine, bigNumberFallback } = this.props;
@@ -215,7 +194,6 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps, BigNumberVisSt
   renderCusHeader(maxHeight: number, index: number) {
     const { bigNumber, headerFormatter, width, colorThresholdFormatters, value, textColor } =
       this.props;
-      const { clickedIndexes } = this.state;
     // @ts-ignore
     const text = value[index] === null ? t('No data') : headerFormatter(value[index]);
 
@@ -224,7 +202,6 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps, BigNumberVisSt
       colorThresholdFormatters.length > 0;
 
     let numberColor;
-    let previousColor;
     if (hasThresholdColorFormatter) {
       colorThresholdFormatters!.forEach(formatter => {
         const formatterResult = value[index]
@@ -235,7 +212,6 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps, BigNumberVisSt
         }
       });
     } else {
-      previousColor = numberColor;
       numberColor = textColor;
     }
 
@@ -257,8 +233,6 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps, BigNumberVisSt
       }
     };
 
-    numberColor = clickedIndexes[index] || textColor; // Apply color based on clickedIndexes
-
     return (
       <div
         className="header-line"
@@ -268,7 +242,6 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps, BigNumberVisSt
           color: numberColor,
         }}
         onContextMenu={onContextMenu}
-        onClick={() => this.handleDivClick(index)} // Set clicked index on click
       >
         {text}
       </div>
@@ -316,6 +289,76 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps, BigNumberVisSt
     }
     return null;
   }
+
+  renderCusSubheader(maxHeight: number, idx: number) {
+    const { bigNumber, subheader, width, bigNumberFallback, subHeadTextColor, text1, text2, bigNumberConfig } = this.props;
+    let fontSize = 0;
+
+    const NO_DATA_OR_HASNT_LANDED = t(
+      'No data after filtering or data is NULL for the latest time record',
+    );
+    const NO_DATA = t(
+      'Try applying different filters or ensuring your datasource has data',
+    );
+    let text = subheader;
+    if (bigNumber === null) {
+      text = bigNumberFallback ? NO_DATA : NO_DATA_OR_HASNT_LANDED;
+    }
+
+    // if (idx+1 == 1) {
+    //   text = text1;
+    // } else if(idx+1 == 2) {
+    //   text = text2;
+    // }
+
+    text = bigNumberConfig[idx].subHeader;
+
+    if (text) {
+      const container = this.createTemporaryContainer();
+      document.body.append(container);
+      fontSize = computeMaxFontSize({
+        text,
+        maxWidth: width,
+        maxHeight,
+        className: 'subheader-line',
+        container,
+      });
+      container.remove();
+
+      return (
+        <div
+          className="subheader-line"
+          style={{
+            fontSize,
+            height: maxHeight,
+            color:subHeadTextColor,
+          }}
+        >
+          {text}
+        </div>
+      );
+    }
+    return null;
+  }
+
+  handleClick = (param) => (event) => {
+    // Handle the click event and use the parameter
+    console.log('Div clicked with parameter:', param);
+    for (let i=1; i < 6 ; i++) {
+      let selector = 'input[aria-label="text' + i + '"]' 
+      document.querySelectorAll(selector).forEach((element) => {
+        const parentDiv = element.closest('div[data-test="control-item"]');
+        if (parentDiv) {
+          if(param + 1 == i)
+            parentDiv.style.display = 'block';
+          else 
+            parentDiv.style.display = 'none';
+        }
+      });
+    }
+  };
+
+
 
   renderTrendline(maxHeight: number) {
     const { width, trendLineData, echartOptions, refs } = this.props;
@@ -374,8 +417,20 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps, BigNumberVisSt
       value
     } = this.props;
     const className = this.getClassName();
-    let changeHeight = (typeof value !== 'undefined') ? height / value.length : height;
-    
+
+    $( document ).ready(function() {
+      for (let i=value.length+1; i <= 10 ; i++) {
+        let selector = 'input[aria-label="text' + i + '"]' 
+        document.querySelectorAll(selector).forEach((element) => {
+          const parentDiv = element.closest('div[data-test="control-item"]');
+          if (parentDiv) {
+              parentDiv.style.display = 'none';
+          }
+        });
+      }
+    });
+    console.log(value);
+
     if (showTrendLine) {
       const chartHeight = Math.floor(PROPORTION.TRENDLINE * height);
       const allTextHeight = height - chartHeight;
@@ -405,14 +460,17 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps, BigNumberVisSt
 
     return (
       <div style={{ height: height, overflow: 'auto', scrollbarGutter: 'stable' }}>
-        {value.map((val:any, index:number) => (
-        <div className={this.getClassName()} style={{ height: height, backgroundColor: backgroundColor }} key={index}>
+      {value.map((val: any, index: number) => (
+        <div 
+        className={className} 
+        style={{ height: height, backgroundColor: backgroundColor }}
+        onClick={this.handleClick(index)}>
           {this.renderFallbackWarning()}
           {this.renderKicker((kickerFontSize || 0) * height)}
           {this.renderCusHeader(Math.ceil(headerFontSize * height), index)}
-          {this.renderSubheader(Math.ceil(subheaderFontSize * height))}
+          {this.renderCusSubheader(Math.ceil(subheaderFontSize * height), index)}
         </div>
-        ))}
+      ))}
       </div>
     );
   }
