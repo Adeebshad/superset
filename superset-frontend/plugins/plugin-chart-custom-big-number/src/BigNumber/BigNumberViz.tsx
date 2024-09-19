@@ -192,7 +192,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
   }
 
   renderCusHeader(maxHeight: number, index: number) {
-    const { bigNumber, headerFormatter, width, colorThresholdFormatters, textColor, bigNumberConfig } =
+    const { bigNumber, headerFormatter, width, colorThresholdFormatters, bigNumberConfig } =
       this.props;
     // @ts-ignore
     const text = bigNumberConfig[index].bigNumberText === null ? t('No data') : headerFormatter(bigNumberConfig[index].bigNumberText);
@@ -212,7 +212,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
         }
       });
     } else {
-      numberColor = textColor;
+      numberColor = bigNumberConfig[index].textColour;
     }
 
     const container = this.createTemporaryContainer();
@@ -325,7 +325,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
           style={{
             fontSize,
             height: maxHeight,
-            color:subHeadTextColor,
+            color:bigNumberConfig[idx].subHeaderTextColour,
           }}
         >
           {text}
