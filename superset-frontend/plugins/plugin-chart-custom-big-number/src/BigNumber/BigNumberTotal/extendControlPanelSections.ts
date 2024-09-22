@@ -35,6 +35,22 @@ export const backgroundColorControl = (count : number) =>{
       // Values represent the percentage of space a subheader should take
       options: [
         {
+          label: t('Blue'),
+          value: '#4287f5',
+        },
+        {
+          label: t('Pink'),
+          value: '#f54298',
+        },
+        {
+          label: t('Red'),
+          value: '#f54245',
+        },
+        {
+          label: t('Violet'),
+          value: '#e642f5',
+        },
+        {
           label: t('Cornsilk'),
           value: '#FFF8DC',
         },
@@ -84,6 +100,26 @@ export const subHeadTextColorControl = ( textPortion: string , count : number) =
       default: 'black',
       // Values represent the percentage of space a subheader should take
       options: [
+        {
+          label: t('Blue'),
+          value: '#4287f5',
+        },
+        {
+          label: t('Pink'),
+          value: '#f54298',
+        },
+        {
+          label: t('Yellow'),
+          value: '#eff542',
+        },
+        {
+          label: t('Red'),
+          value: '#f54245',
+        },
+        {
+          label: t('Violet'),
+          value: '#e642f5',
+        },
         {
           label: t('Jet Black'),
           value: '#343434',
