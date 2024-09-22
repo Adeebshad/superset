@@ -125,14 +125,14 @@ export default function transformProps(
 }
 
 function bigNumberConfigProvider(formData: any, queriesData: any) {
- const texts = [];
+ const subHeaders = [];
  const backgroundColors = [];
  const textColors = [];
  const subHeaderTextColors = [];
 
  // Loop through 1 to 10 to dynamically add values to arrays
  for (let i = 1; i <=  maxChart; i++) {
-   texts.push(formData[`text${i}`]);
+  subHeaders.push(formData[`subHeader${i}`]);
    backgroundColors.push(formData[`backgroundColor${i}`]);
    textColors.push(formData[`textColor${i}`]);
    subHeaderTextColors.push(formData[`subHeaderTextColor${i}`]);
@@ -144,7 +144,7 @@ function bigNumberConfigProvider(formData: any, queriesData: any) {
     for (let i = 0; i < columns.length; i++) {
       const key = columns[i];
       bigNumberConfig.push({
-        subHeader: texts[i] || '',
+        subHeader: subHeaders[i] || '',
         subHeaderTextColour: subHeaderTextColors[i] || '',
         bigNumberText: queriesData.data[0][key] || '',
         textColour: textColors[i] || '',

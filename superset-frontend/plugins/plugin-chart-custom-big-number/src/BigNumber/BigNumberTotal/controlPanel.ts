@@ -125,8 +125,9 @@ export default {
       expanded: true,
       controlSetRows: [
         ...backgroundColorControl(10),
-        ...subHeadTextColorControl('Sub_Header_Text_Color_',10),
         ...subHeadTextColorControl('Text_Color_',10),
+        ...subHeadTextColorControl('Sub_Header_Text_Color_',10),
+        
       ]
     }
   ],

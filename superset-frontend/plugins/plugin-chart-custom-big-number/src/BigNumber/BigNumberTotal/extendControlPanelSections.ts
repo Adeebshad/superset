@@ -7,10 +7,10 @@ export const generateTextControls = (count: number) => {
   for (let i = 1; i <= count; i++) {
     controls.push([
       {
-        name: `text${i}`,
+        name: 'subHeader_'+ i,
         config: {
           type: 'TextControl',
-          label: t(`text${i}`),
+          label: t(`subHeader_`+ i),
           renderTrigger: true,
           description: t(`Description text that shows up below your Big Number`),
         },

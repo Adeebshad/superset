@@ -342,7 +342,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
     
     for (let i = 1; i <= bigNumberConfig.length + 1; i++) {
       // Select for text input with aria-label="textX"
-      let subheaderTextSelector = 'input[aria-label="text' + i + '"]';
+      let subheaderTextSelector = 'input[aria-label="subHeader_' + i + '"]';
       // Select for background color input with aria-label="background_color_X"
       let bgColorSelector = 'input[aria-label="background_color_' + i + '"]';
 
@@ -431,7 +431,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
     $(document).ready(function() {
       for (let i = 1; i <= maxChart; i++) {
      // Select for text input with aria-label="textX"
-     let subheaderTextSelector = 'input[aria-label="text' + i + '"]';
+     let subheaderTextSelector = 'input[aria-label="subHeader_' + i + '"]';
      // Select for background color input with aria-label="background_color_X"
      let bgColorSelector = 'input[aria-label="background_color_' + i + '"]';
 
