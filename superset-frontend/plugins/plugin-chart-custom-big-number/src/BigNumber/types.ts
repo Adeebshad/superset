@@ -100,4 +100,5 @@ export type BigNumberVizProps = {
   refs: Refs;
   colorThresholdFormatters?: ColorFormatters;
   bigNumberConfig: any;
+  maxChart: number;
 };

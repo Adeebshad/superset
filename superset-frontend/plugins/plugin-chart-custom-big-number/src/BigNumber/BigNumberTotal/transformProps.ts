@@ -32,7 +32,7 @@ import { BigNumberTotalChartProps, BigNumberVizProps } from '../types';
 import { getDateFormatter, parseMetricValue } from '../utils';
 import { Refs } from '../../types';
 import controlPanel from './controlPanel';
-
+const maxChart= 100;
 export default function transformProps(
   chartProps: BigNumberTotalChartProps,
 ): BigNumberVizProps {
@@ -104,7 +104,7 @@ export default function transformProps(
   const colorThresholdFormatters =
     getColorFormatters(conditionalFormatting, data, false) ??
     defaultColorFormatters;
-
+  
   return {
     width,
     height,
@@ -119,31 +119,19 @@ export default function transformProps(
     onContextMenu,
     refs,
     colorThresholdFormatters,
-    bigNumberConfig
+    bigNumberConfig,
+    maxChart,
   };
 }
 
 function bigNumberConfigProvider(formData: any, queriesData: any) {
- //const {
- //  text1, text2, text3, text4, text5, text6, text7, text8, text9, text10,
- //  backgroundColor1, backgroundColor2, backgroundColor3, backgroundColor4, 
- //  backgroundColor5, backgroundColor6, backgroundColor7, backgroundColor8, backgroundColor9, backgroundColor10,
- //  textColor1, textColor2, textColor3, textColor4, textColor5, textColor6, textColor7, textColor8, textColor9, textColor10,
- //  subHeaderTextColor1, subHeaderTextColor2, subHeaderTextColor3, subHeaderTextColor4, subHeaderTextColor5, subHeaderTextColor6,
- //  subHeaderTextColor7, subHeaderTextColor8, subHeaderTextColor9, subHeaderTextColor10
- //} = formData;
-
- //const texts = [text1, text2, text3, text4, text5, text6, text7, text8, text9, text10];
- //const backgroundColors = [backgroundColor1, backgroundColor2, backgroundColor3, backgroundColor4, backgroundColor5, backgroundColor6, backgroundColor7, backgroundColor8, backgroundColor9, backgroundColor10];
- //const textColors = [textColor1, textColor2, textColor3, textColor4, textColor5, textColor6, textColor7, textColor8, textColor9, textColor10];
- //const subHeaderTextColors = [subHeaderTextColor1, subHeaderTextColor2, subHeaderTextColor3, subHeaderTextColor4, subHeaderTextColor5, subHeaderTextColor6, subHeaderTextColor7, subHeaderTextColor8, subHeaderTextColor9, subHeaderTextColor10];
  const texts = [];
  const backgroundColors = [];
  const textColors = [];
  const subHeaderTextColors = [];
 
  // Loop through 1 to 10 to dynamically add values to arrays
- for (let i = 1; i <= 10; i++) {
+ for (let i = 1; i <=  maxChart; i++) {
    texts.push(formData[`text${i}`]);
    backgroundColors.push(formData[`backgroundColor${i}`]);
    textColors.push(formData[`textColor${i}`]);
