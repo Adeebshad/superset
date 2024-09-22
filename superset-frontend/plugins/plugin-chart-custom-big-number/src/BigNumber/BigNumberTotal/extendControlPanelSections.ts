@@ -118,3 +118,4 @@ export const subHeadTextColorControl = ( textPortion: string , count : number) =
  }
   return controls;
 }
+

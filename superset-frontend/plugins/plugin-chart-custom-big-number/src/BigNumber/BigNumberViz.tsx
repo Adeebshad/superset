@@ -335,26 +335,70 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
     return null;
   }
 
-  handleClick = (param:any) => (event) => {
+  handleClick = (param:any) => (event) => { 
     // Handle the click event and use the parameter
-    const {bigNumberConfig } = this.props;
+    const { bigNumberConfig } = this.props;
     console.log('Div clicked with parameter:', param);
-    for (let i=1; i <= bigNumberConfig.length+1 ; i++) {
-      let selector = 'input[aria-label="text' + i + '"]' 
-      document.querySelectorAll(selector).forEach((element) => {
+    
+    for (let i = 1; i <= bigNumberConfig.length + 1; i++) {
+      // Select for text input with aria-label="textX"
+      let textSelector = 'input[aria-label="text' + i + '"]';
+      // Select for background color input with aria-label="background_color_X"
+      let backgroundColorSelector = 'input[aria-label="background_color_' + i + '"]';
+
+      let subHeaderColorSelector = 'input[aria-label="Sub_Header_Text_Color_' + i + '"]';
+      let headerColorSelector = 'input[aria-label="Text_Color_' + i + '"]';
+      
+      // Handle the visibility of the text input
+      document.querySelectorAll(textSelector).forEach((element) => {
         const parentDiv = element.closest('div[data-test="control-item"]');
         if (parentDiv) {
-          if(param + 1 == i){
+          if (param + 1 === i) {
             lastclicked = param + 1;
             parentDiv.style.display = 'block';
-          }
-            
-          else 
+          } else {
             parentDiv.style.display = 'none';
+          }
+        }
+      });
+
+      // Handle the visibility of the background color input
+      document.querySelectorAll(backgroundColorSelector).forEach((element) => {
+        const parentDiv = element.closest('div[data-test="background_color_' + i + '"]');
+        if (parentDiv) {
+          if (param + 1 === i) {
+            parentDiv.style.display = 'block';
+          } else {
+            parentDiv.style.display = 'none';
+          }
+        }
+      });
+
+      // Handle the visibility of the subheader color input
+      document.querySelectorAll(subHeaderColorSelector).forEach((element) => {
+        const parentDiv = element.closest('div[data-test="Sub_Header_Text_Color_' + i + '"]');
+        if (parentDiv) {
+          if (param + 1 === i) {
+            parentDiv.style.display = 'block';
+          } else {
+            parentDiv.style.display = 'none';
+          }
+        }
+      });
+
+      // Handle the visibility of the header color input
+      document.querySelectorAll(headerColorSelector).forEach((element) => {
+        const parentDiv = element.closest('div[data-test="Text_Color_' + i + '"]');
+        if (parentDiv) {
+          if (param + 1 === i) {
+            parentDiv.style.display = 'block';
+          } else {
+            parentDiv.style.display = 'none';
+          }
         }
       });
     }
-  };
+};
 
 
 
@@ -416,18 +460,45 @@ class BigNumberVis extends React.PureComponent<BigNumberVizProps> {
     } = this.props;
     const className = this.getClassName();
 
-    $( document ).ready(function() {
-      for (let i=1; i <= 100 ; i++) {
-        let selector = 'input[aria-label="text' + i + '"]' 
-        document.querySelectorAll(selector).forEach((element) => {
+    $(document).ready(function() {
+      for (let i = 1; i <= 100; i++) {
+        // Selector for text inputs
+        let textSelector = 'input[aria-label="text' + i + '"]';
+        // Selector for background color inputs
+        let backgroundColorSelector = 'input[aria-label="background_color_' + i + '"]';
+        let subHeaderColorSelector = 'input[aria-label="Sub_Header_Text_Color_' + i + '"]';
+        let headerColorSelector = 'input[aria-label="Text_Color_' + i + '"]';
+    
+        // Handle text inputs visibility based on last clicked
+        document.querySelectorAll(textSelector).forEach((element) => {
           const parentDiv = element.closest('div[data-test="control-item"]');
           if (parentDiv) {
             parentDiv.style.display = i === lastclicked ? 'block' : 'none';
-
+          }
+        });
+    
+        // Handle background color inputs visibility based on last clicked
+        document.querySelectorAll(backgroundColorSelector).forEach((element) => {
+          const parentDiv = element.closest('div[data-test="background_color_' + i + '"]');
+          if (parentDiv) {
+            parentDiv.style.display = i === lastclicked ? 'block' : 'none';
+          }
+        });
+        document.querySelectorAll(subHeaderColorSelector).forEach((element) => {
+          const parentDiv = element.closest('div[data-test="Sub_Header_Text_Color_' + i + '"]');
+          if (parentDiv) {
+            parentDiv.style.display = i === lastclicked ? 'block' : 'none';
+          }
+        });
+        document.querySelectorAll(headerColorSelector).forEach((element) => {
+          const parentDiv = element.closest('div[data-test="Text_Color_' + i + '"]');
+          if (parentDiv) {
+            parentDiv.style.display = i === lastclicked ? 'block' : 'none';
           }
         });
       }
     });
+    
 
     if (showTrendLine) {
       const chartHeight = Math.floor(PROPORTION.TRENDLINE * height);

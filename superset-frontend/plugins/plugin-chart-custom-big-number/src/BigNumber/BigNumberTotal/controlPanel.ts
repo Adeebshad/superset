@@ -49,9 +49,6 @@ export default {
       controlSetRows: [
         [headerFontSize],
         [subheaderFontSize],
-        [textColor],
-        [backgroundColor],
-        [subHeadTextColor],
         ['y_axis_format'],
         ['currency_format'],
         [
