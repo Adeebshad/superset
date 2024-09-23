@@ -3,7 +3,6 @@ import { t } from '@superset-ui/core';
 // externalConfig.js
 export const generateTextControls = (count: number) => {
   const controls = [];
-  console.log('global : ', count);
   for (let i = 1; i <= count; i++) {
     controls.push([
       {

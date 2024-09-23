@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-let metricsLength = 0;
 import { GenericDataType, smartDateFormatter, t } from '@superset-ui/core';
 import {
   ControlPanelConfig,
@@ -141,4 +140,3 @@ export default {
     metrics: getStandardizedControls().shiftMetric(),
   }),
 } as ControlPanelConfig;
-console.log('Metrics Length outside mapStateToProps:', metricsLength);
