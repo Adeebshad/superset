@@ -235,6 +235,7 @@ export default function TableChart<D extends DataRecord = DataRecord>(
     serverPaginationData,
     setDataMask,
     showCellBars = true,
+    showUrls='',
     sortDesc = false,
     filters,
     sticky = true, // whether to use sticky header
@@ -682,6 +683,7 @@ export default function TableChart<D extends DataRecord = DataRecord>(
       isActiveFilterValue,
       isRawRecords,
       showCellBars,
+      showUrls,
       sortDesc,
       toggleFilter,
       totals,

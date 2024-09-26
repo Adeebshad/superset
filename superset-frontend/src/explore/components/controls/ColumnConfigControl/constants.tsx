@@ -39,6 +39,7 @@ export type SharedColumnConfigProp =
   | 'horizontalAlign'
   | 'truncateLongCells'
   | 'showCellBars'
+  | 'showUrls'
   | 'currencyFormat';
 
 const d3NumberFormat: ControlFormItemSpec<'Select'> = {
@@ -117,6 +118,15 @@ const showCellBars: ControlFormItemSpec<'Checkbox'> = {
   debounceDelay: 200,
 };
 
+const showUrls: ControlFormItemSpec<'Input'> = {
+  controlType: 'Input',
+  label: t('Url'),
+  description: t('Field for URL'),
+  placeholder: t('Enter a URL'), // Use placeholder instead of defaultValue
+  debounceDelay: 200,
+};
+
+
 const alignPositiveNegative: ControlFormItemSpec<'Checkbox'> = {
   controlType: 'Checkbox',
   label: t('Align +/-'),
@@ -172,6 +182,7 @@ export const SHARED_COLUMN_CONFIG_PROPS = {
   truncateLongCells,
   horizontalAlign,
   showCellBars,
+  showUrls,
   alignPositiveNegative,
   colorPositiveNegative,
   currencyFormat,
@@ -184,6 +195,8 @@ export const DEFAULT_CONFIG_FORM_LAYOUT: ColumnConfigFormLayout = {
       { name: 'horizontalAlign', override: { defaultValue: 'left' } },
     ],
     ['truncateLongCells'],
+    ['showUrls'],
+    
   ],
   [GenericDataType.Numeric]: [
     {
@@ -194,6 +207,7 @@ export const DEFAULT_CONFIG_FORM_LAYOUT: ColumnConfigFormLayout = {
           { name: 'horizontalAlign', override: { defaultValue: 'right' } },
         ],
         ['showCellBars'],
+        ['showUrls'],
         ['alignPositiveNegative'],
         ['colorPositiveNegative'],
       ],
