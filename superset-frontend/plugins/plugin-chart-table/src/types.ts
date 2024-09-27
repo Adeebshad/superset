@@ -46,6 +46,8 @@ export type TableColumnConfig = {
   horizontalAlign?: 'left' | 'right' | 'center';
   showCellBars?: boolean;
   showUrls?: string;
+  showUrlsTrigger?: boolean;
+  urlQueryParams?: string;
   alignPositiveNegative?: boolean;
   colorPositiveNegative?: boolean;
   truncateLongCells?: boolean;
@@ -120,6 +122,8 @@ export interface TableChartTransformedProps<D extends DataRecord = DataRecord> {
   pageSize?: number;
   showCellBars?: boolean;
   showUrls?: string;
+  urlQueryParams?: string;
+  showUrlsTrigger?: boolean;
   sortDesc?: boolean;
   includeSearch?: boolean;
   alignPositiveNegative?: boolean;

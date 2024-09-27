@@ -216,6 +216,7 @@ const getNoResultsMessage = (filter: string) =>
 export default function TableChart<D extends DataRecord = DataRecord>(
   props: TableChartTransformedProps<D> & {
     sticky?: DataTableProps<D>['sticky'];
+    config?: DataTableProps<D>['config'];
   },
 ) {
   const {
@@ -235,7 +236,9 @@ export default function TableChart<D extends DataRecord = DataRecord>(
     serverPaginationData,
     setDataMask,
     showCellBars = true,
-    showUrls='',
+    showUrls = '',
+    showUrlsTrigger = false,
+    urlQueryParams = '',
     sortDesc = false,
     filters,
     sticky = true, // whether to use sticky header
@@ -683,7 +686,6 @@ export default function TableChart<D extends DataRecord = DataRecord>(
       isActiveFilterValue,
       isRawRecords,
       showCellBars,
-      showUrls,
       sortDesc,
       toggleFilter,
       totals,
@@ -696,6 +698,29 @@ export default function TableChart<D extends DataRecord = DataRecord>(
     () => columnsMeta.map(getColumnConfigs),
     [columnsMeta, getColumnConfigs],
   );
+
+  const getColumnDashboardConfigs = useCallback(
+    (column: DataColumnMeta, i: number): showURLType => {
+      const {
+        config = {},
+      } = column;
+      return {
+        showURL: config.showUrlsTrigger,
+        url: config.showUrls,
+        urlQueryParams: config.urlQueryParams
+      };
+    },
+    [
+      showUrlsTrigger,
+      showUrls,
+      urlQueryParams
+    ],
+  );
+
+  const config = useMemo(
+    () => columnsMeta.map(getColumnDashboardConfigs),
+    [columnsMeta, getColumnDashboardConfigs]
+  )
 
   const handleServerPaginationChange = useCallback(
     (pageNumber: number, pageSize: number) => {
@@ -743,6 +768,7 @@ export default function TableChart<D extends DataRecord = DataRecord>(
     <Styles>
       <DataTable<D>
         columns={columns}
+        config = {config}
         data={data}
         rowCount={rowCount}
         tableClassName="table table-striped table-condensed"
@@ -764,4 +790,10 @@ export default function TableChart<D extends DataRecord = DataRecord>(
       />
     </Styles>
   );
+}
+
+export type showURLType = {
+  showURL?: boolean,
+  url?: string,
+  urlQueryParams?: string,
 }
