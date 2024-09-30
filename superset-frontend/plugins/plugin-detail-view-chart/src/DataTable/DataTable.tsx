@@ -335,6 +335,26 @@ export default typedMemo(function DataTable<D extends object>({
     </table>
   );
 
+  const attributeTable = () => {
+    let size = 6;
+    let si = 'col-md-' + size;
+    let flag : boolean = false;
+    return (
+      <div>
+      {Object.keys(data[0]).length > 0 ? (
+        Object.entries(data[0]).map(([key, value]) => (
+          <div className={si} key={key} style={{paddingRight: '0px', paddingLeft: '0px', ...(flag && { borderBottom: '1px solid black' })}}>
+            <div className="col-md-6" style={{ padding: '10px', overflow: 'hidden', ...(flag && { borderTop: '1px solid black', borderLeft: '1px solid black'})}}><strong> {key} </strong>: </div>
+            <div className="col-md-6" style={{ padding: '10px', overflow: 'hidden', ...(flag && { borderTop: '1px solid black', borderLeft: '1px solid black'}) }}> {value} </div>
+          </div>
+        ))
+      ) : (
+        <div>No data available</div>
+      )}
+    </div>
+    );
+  }
+
   // force update the pageSize when it's been update from the initial state
   if (
     pageSizeRef.current[0] !== initialPageSize ||
@@ -409,7 +429,8 @@ export default typedMemo(function DataTable<D extends object>({
           </div>
         </div>
       ) : null}
-      {wrapStickyTable ? wrapStickyTable(renderTable) : renderTable()}
+      {/* {wrapStickyTable ? wrapStickyTable(renderTable) : renderTable()} */}
+      {attributeTable()}
       {hasPagination && resultPageCount > 1 ? (
         <SimplePagination
           ref={paginationRef}
