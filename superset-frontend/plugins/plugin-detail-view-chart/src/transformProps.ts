@@ -234,12 +234,14 @@ const transformProps = (
     include_search: includeSearch = false,
     page_length: pageLength,
     server_pagination: serverPagination = false,
+
     server_page_length: serverPageLength = 10,
     order_desc: sortDesc = false,
     query_mode: queryMode,
     show_totals: showTotals,
     conditional_formatting: conditionalFormatting,
     allow_rearrange_columns: allowRearrangeColumns,
+    ColumnNumber,
   } = formData;
   const timeGrain = extractTimegrain(formData);
 
@@ -265,6 +267,7 @@ const transformProps = (
     getColorFormatters(conditionalFormatting, data) ?? defaultColorFormatters;
 
   return {
+    ColumnNumber,
     height,
     width,
     isRawRecords: queryMode === QueryMode.Raw,

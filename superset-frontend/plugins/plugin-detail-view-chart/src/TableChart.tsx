@@ -235,6 +235,7 @@ export default function TableChart<D extends DataRecord = DataRecord>(
     serverPagination = false,
     serverPaginationData,
     setDataMask,
+    ColumnNumber,
     showCellBars = true,
     dashboardUrl = '',
     showUrls = false,
@@ -802,6 +803,7 @@ export default function TableChart<D extends DataRecord = DataRecord>(
   return (
     <Styles>
       <DataTable<D>
+        ColumnNumber={ColumnNumber}
         columns={columns}
         config = {config}
         data={data}

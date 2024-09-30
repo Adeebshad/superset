@@ -283,6 +283,43 @@ const config: ControlPanelConfig = {
             },
           },
         ],
+        [{
+          name: 'ColumnNumber',
+          config: {
+            type: 'SelectControl',
+            renderTrigger: true,
+            clearable: false,
+            label: t('Number of Columns'),
+            default: 1,
+            description: t('Select how many columns you want to display your data in'),
+            options: [
+              {
+                label: t('1'),
+                value: 1,
+              },
+              {
+                label: t('2'),
+                value: 2,
+              },
+              {
+                label: t('3'),
+                value: 3,
+              },
+              {
+                label: t('4'),
+                value: 4,
+              },
+              {
+                label: t('5'),
+                value: 5,
+              },
+              {
+                label: t('6'),
+                value: 6,
+              },
+            ],
+          },
+        },],
         [
           {
             name: 'server_pagination',
