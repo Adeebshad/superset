@@ -39,8 +39,8 @@ export type SharedColumnConfigProp =
   | 'horizontalAlign'
   | 'truncateLongCells'
   | 'showCellBars'
+  | 'dashboardUrl'
   | 'showUrls'
-  | 'showUrlsTrigger'
   | 'urlQueryParams'
   | 'currencyFormat';
 
@@ -120,11 +120,11 @@ const showCellBars: ControlFormItemSpec<'Checkbox'> = {
   debounceDelay: 200,
 };
 
-const showUrls: ControlFormItemSpec<'Input'> = {
+const dashboardUrl: ControlFormItemSpec<'Input'> = {
   controlType: 'Input',
-  label: t('Url'),
+  label: t('Dashboard URL'),
   description: t('Field for URL'),
-  placeholder: t('Enter a URL'), // Use placeholder instead of defaultValue
+  placeholder: t('Enter a Dashboard URL'), // Use placeholder instead of defaultValue
   debounceDelay: 200,
 };
 
@@ -136,7 +136,7 @@ const urlQueryParams: ControlFormItemSpec<'Input'> = {
   debounceDelay: 200,
 };
 
-const showUrlsTrigger: ControlFormItemSpec<'Checkbox'> = {
+const showUrls: ControlFormItemSpec<'Checkbox'> = {
   controlType: 'Checkbox',
   label: t('Show URl'),
   description: t(
@@ -201,9 +201,9 @@ export const SHARED_COLUMN_CONFIG_PROPS = {
   truncateLongCells,
   horizontalAlign,
   showCellBars,
-  showUrls,
+  dashboardUrl,
   urlQueryParams,
-  showUrlsTrigger,
+  showUrls,
   alignPositiveNegative,
   colorPositiveNegative,
   currencyFormat,
@@ -216,8 +216,8 @@ export const DEFAULT_CONFIG_FORM_LAYOUT: ColumnConfigFormLayout = {
       { name: 'horizontalAlign', override: { defaultValue: 'left' } },
     ],
     ['truncateLongCells'],
-    ['showUrlsTrigger'],
     ['showUrls'],
+    ['dashboardUrl'],
     ['urlQueryParams']
   ],
   [GenericDataType.Numeric]: [
@@ -229,8 +229,8 @@ export const DEFAULT_CONFIG_FORM_LAYOUT: ColumnConfigFormLayout = {
           { name: 'horizontalAlign', override: { defaultValue: 'right' } },
         ],
         ['showCellBars'],
-        ['showUrlsTrigger'],
         ['showUrls'],
+        ['dashboardUrl'],
         ['urlQueryParams'],
         ['alignPositiveNegative'],
         ['colorPositiveNegative'],

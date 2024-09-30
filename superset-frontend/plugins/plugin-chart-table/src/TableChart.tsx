@@ -236,8 +236,8 @@ export default function TableChart<D extends DataRecord = DataRecord>(
     serverPaginationData,
     setDataMask,
     showCellBars = true,
-    showUrls = '',
-    showUrlsTrigger = false,
+    dashboardUrl = '',
+    showUrls = false,
     urlQueryParams = '',
     sortDesc = false,
     filters,
@@ -698,25 +698,60 @@ export default function TableChart<D extends DataRecord = DataRecord>(
     () => columnsMeta.map(getColumnConfigs),
     [columnsMeta, getColumnConfigs],
   );
+   // Pretty print with indentation
+
 
   const getColumnDashboardConfigs = useCallback(
     (column: DataColumnMeta, i: number): showURLType => {
       const {
         config = {},
       } = column;
+            // Conditional configure for url textbox
+    //  console.log(JSON.stringify(column, null, 2));
+//
+    //  console.log(column.config?.showUrls); // If it's a single object
+    //  console.log("Hello");
+//
+    //  if (!column.config?.showUrls) {
+    //    // Find all divs with the class 'ant-popover-title'
+    //    const popoverTitles = document.querySelectorAll('.ant-popover-title');
+//
+    //    // Assuming column.label is available in your context
+    //    popoverTitles.forEach(popoverTitle => {
+    //      console.log('column before '+column.key)
+    //      console.log("title before " + popoverTitle?.innerHTML)
+    //      if (column.key === popoverTitle?.innerHTML) {
+    //        console.log('column after '+column.key)
+    //        console.log("title after "+popoverTitle?.innerHTML)
+    //        const popoverContent = popoverTitle.closest('.ant-popover-inner-content');
+//
+    //        if (popoverContent) {
+    //          const dashboardHeader = popoverContent.querySelector('[data-test="dashboardUrl-header"]');
+    //          // Find the nearest ControlFormRow from the dashboardHeader
+    //          if (dashboardHeader) {
+    //            const nearestControlFormRow = dashboardHeader.closest('.css-13o3pm2-ControlFormRow');
+    //            if (nearestControlFormRow) {
+    //              nearestControlFormRow.style.display = 'none';
+    //            }
+    //          }
+    //        }
+    //      }
+    //    });
+    //  }
+
       return {
-        showURL: config.showUrlsTrigger,
-        url: config.showUrls,
+        showURL: config.showUrls,
+        url: config.dashboardUrl,
         urlQueryParams: config.urlQueryParams
       };
     },
     [
-      showUrlsTrigger,
       showUrls,
+      dashboardUrl,
       urlQueryParams
     ],
   );
-
+  
   const config = useMemo(
     () => columnsMeta.map(getColumnDashboardConfigs),
     [columnsMeta, getColumnDashboardConfigs]
