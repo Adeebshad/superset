@@ -67,6 +67,7 @@ export interface DataTableProps<D extends object> extends TableOptions<D> {
   sticky?: boolean;
   config?: showURLType[] | any;
   ColumnNumber?:number | any;
+  grid?:boolean;
   rowCount: number;
   wrapperRef?: MutableRefObject<HTMLDivElement>;
   onColumnOrderChange: () => void;
@@ -83,6 +84,7 @@ const sortTypes = {
 // Be sure to pass our updateMyData and the skipReset option
 export default typedMemo(function DataTable<D extends object>({
   ColumnNumber,
+  grid,
   tableClassName,
   columns,
   config,
@@ -340,7 +342,7 @@ export default typedMemo(function DataTable<D extends object>({
   const attributeTable = () => {
     let size = Math.floor(12 / ColumnNumber);
     let si = 'col-md-' + size;
-    let flag : boolean = false;
+    let flag = grid;
     return (
       <div>
       {Object.keys(data[0]).length > 0 ? (

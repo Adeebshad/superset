@@ -320,6 +320,16 @@ const config: ControlPanelConfig = {
             ],
           },
         },],
+        [{
+          name: 'grid',
+          config: {
+            type: 'CheckboxControl',
+            label: t('Grid'),
+            renderTrigger: true,
+            default: false,
+            description: t('Whether to include Grid'),
+          },
+        },],
         [
           {
             name: 'server_pagination',

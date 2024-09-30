@@ -242,6 +242,7 @@ const transformProps = (
     conditional_formatting: conditionalFormatting,
     allow_rearrange_columns: allowRearrangeColumns,
     ColumnNumber,
+    grid,
   } = formData;
   const timeGrain = extractTimegrain(formData);
 
@@ -267,6 +268,7 @@ const transformProps = (
     getColorFormatters(conditionalFormatting, data) ?? defaultColorFormatters;
 
   return {
+    grid,
     ColumnNumber,
     height,
     width,
