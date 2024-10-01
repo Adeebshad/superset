@@ -341,15 +341,18 @@ export default typedMemo(function DataTable<D extends object>({
 
   const attributeTable = () => {
     let size = Math.floor(12 / ColumnNumber);
-    let si = 'col-md-' + size;
-    let flag = grid;
+    let columnSize = 'col-md-' + size;
+    let isGridView = grid;
+    let keyStyle  = { borderTop: '1px solid black', borderLeft: '1px solid black', borderBottom: '0.5px solid black'};
+    let valueStyle  = { borderTop: '1px solid black', borderBottom: '1px solid black', borderLeft: '1px solid black', borderRight: '1px solid black'};
+
     return (
       <div>
       {Object.keys(data[0]).length > 0 ? (
         Object.entries(data[0]).map(([key, value]) => (
-          <div className={si} key={key} style={{paddingRight: '0px', paddingLeft: '0px', ...(flag && { borderBottom: '1px solid black' })}}>
-            <div className="col-md-6" style={{ padding: '10px', overflow: 'hidden', ...(flag && { borderTop: '1px solid black', borderLeft: '1px solid black'})}}><strong> {key} </strong>: </div>
-            <div className="col-md-6" style={{ padding: '10px', overflow: 'hidden', ...(flag && { borderTop: '1px solid black', borderLeft: '1px solid black'}) }}> {value} </div>
+          <div className = {columnSize} key={key} style={{paddingRight: '10px', paddingLeft: '10px'}}>
+            <div className="col-md-6" style={{ padding: '10px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', ...(isGridView && keyStyle)}}> <strong> {key} </strong>  </div>
+            <div className="col-md-6" style={{ padding: '10px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', ...(isGridView && valueStyle) }}> {!isGridView && ' :'} {value} </div>
           </div>
         ))
       ) : (
@@ -400,7 +403,7 @@ export default typedMemo(function DataTable<D extends object>({
       ref={wrapperRef}
       style={{ width: initialWidth, height: initialHeight }}
     >
-      {hasGlobalControl ? (
+      {/* {hasGlobalControl ? (
         <div ref={globalControlRef} className="form-inline dt-controls">
           <div className="row">
             <div className="col-sm-6">
@@ -432,10 +435,10 @@ export default typedMemo(function DataTable<D extends object>({
             ) : null}
           </div>
         </div>
-      ) : null}
+      ) : null} */}
       {/* {wrapStickyTable ? wrapStickyTable(renderTable) : renderTable()} */}
       {attributeTable()}
-      {hasPagination && resultPageCount > 1 ? (
+      {/* {hasPagination && resultPageCount > 1 ? (
         <SimplePagination
           ref={paginationRef}
           style={paginationStyle}
@@ -444,7 +447,7 @@ export default typedMemo(function DataTable<D extends object>({
           currentPage={resultCurrentPage}
           onPageChange={resultOnPageChange}
         />
-      ) : null}
+      ) : null} */}
     </div>
   );
 });
