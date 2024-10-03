@@ -254,8 +254,9 @@ export default typedMemo(function DataTable<D extends object>({
     }
     e.preventDefault();
   };
-
+ 
   const cellRender = (cell: any, idx:number) => {
+    console.log(cell);
     let queryString = "";
     if (config[idx].urlQueryParams) {
       let params = config[idx].urlQueryParams?.split(',').map((param:string) => param.trim());;
@@ -270,6 +271,27 @@ export default typedMemo(function DataTable<D extends object>({
         rel="noopener noreferrer"
       >
         {cell.render('Cell')}
+      </a>
+    )
+  } 
+
+
+  const dataRender = (data:any, value: string, idx:number) => {
+    let queryString = "";
+    if (config[idx].urlQueryParams) {
+      let params = config[idx].urlQueryParams?.split(',').map((param:string) => param.trim());
+      console.log(data);
+      if (params.length > 0 ) {
+        queryString = params.map((key:string) => `${key}=${data[key]}`).join('&');
+      }
+    }
+    return (
+      <a
+        href={`${config[idx].url}?${queryString}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {value}
       </a>
     )
   } 
@@ -345,14 +367,13 @@ export default typedMemo(function DataTable<D extends object>({
     let isGridView = grid;
     let keyStyle  = { borderTop: '1px solid black', borderLeft: '1px solid black', borderBottom: '0.5px solid black'};
     let valueStyle  = { borderTop: '1px solid black', borderBottom: '1px solid black', borderLeft: '1px solid black', borderRight: '1px solid black'};
-
     return (
       <div>
       {Object.keys(data[0]).length > 0 ? (
-        Object.entries(data[0]).map(([key, value]) => (
+        Object.entries(data[0]).map(([key, value], index) => (
           <div className = {columnSize} key={key} style={{paddingRight: '10px', paddingLeft: '10px'}}>
             <div className="col-md-6" style={{ padding: '10px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', ...(isGridView && keyStyle)}}> <strong> {key} </strong>  </div>
-            <div className="col-md-6" style={{ padding: '10px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', ...(isGridView && valueStyle) }}> {!isGridView && ' :'} {value} </div>
+            <div className="col-md-6" style={{ padding: '10px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', ...(isGridView && valueStyle) }}> {!isGridView && ' :'}  {config[index].showURL ? (dataRender(data[0], value, index)) : (<>{value}</>)}</div>
           </div>
         ))
       ) : (
